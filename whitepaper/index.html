@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nominal Network — White Paper (Draft v0.1)</title>
+  <meta name="description" content="Nominal Network white paper (Draft v0.1): server‑authoritative session model, constant baseline rate, anti‑abuse, token design, security & compliance." />
+  <link rel="canonical" href="https://nominalcoin.app/whitepaper/v0.1" />
+  <meta property="og:title" content="Nominal Network — White Paper (Draft v0.1)" />
+  <meta property="og:description" content="Server‑authoritative session model, constant baseline, anti‑abuse, token design, security & compliance." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://nominalcoin.app/whitepaper/v0.1" />
+  <meta name="theme-color" content="#0fb9b1" />
+  <style>
+    :root{
+      --bg:#0b0d10;            /* dark background */
+      --panel:#11151a;         /* card bg */
+      --text:#e8eef5;          /* primary text */
+      --muted:#a9b6c4;         /* secondary text */
+      --brand:#0fb9b1;         /* turquoise */
+      --accent:#6c5ce7;        /* soft purple */
+      --ok:#2ecc71;
+      --warn:#f1c40f;
+      --bad:#e74c3c;
+      --code:#0a0e13;
+      --border:#1d232c;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--text); background:linear-gradient(180deg, #0b0d10 0%, #0c1218 100%);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:32px 20px 80px}
+    header{
+      position:sticky; top:0; z-index:20; backdrop-filter:saturate(120%) blur(8px);
+      background:linear-gradient(180deg, rgba(11,13,16,.85), rgba(11,13,16,.65)); border-bottom:1px solid var(--border);
+    }
+    header .bar{max-width:1100px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:16px}
+    .badge{display:inline-block; padding:4px 10px; border-radius:999px; font-weight:600; font-size:12px; letter-spacing:.3px; background:rgba(15,185,177,.12); color:#8ff5f0; border:1px solid rgba(15,185,177,.35)}
+    .title{font-size:18px; font-weight:700}
+    .version{margin-left:auto; font-size:13px; color:var(--muted)}
+
+    .hero{margin-top:24px; background:radial-gradient(600px 220px at 20% -30%, rgba(15,185,177,.18), transparent 70%), radial-gradient(500px 200px at 90% -40%, rgba(108,92,231,.12), transparent 70%); border:1px solid var(--border); border-radius:16px; padding:28px}
+    h1{margin:0 0 6px; font-size:28px}
+    .sub{color:var(--muted)}
+
+    .grid{display:grid; grid-template-columns:280px 1fr; gap:28px; margin-top:24px}
+    nav{position:sticky; top:72px; align-self:start; background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px}
+    nav strong{display:block; font-size:13px; color:var(--muted); margin-bottom:10px}
+    nav a{display:block; color:var(--text); text-decoration:none; padding:6px 8px; border-radius:8px; font-size:14px; opacity:.9}
+    nav a:hover{background:#0c131a}
+    nav .sec{margin-top:8px}
+
+    section{background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:22px 22px; margin-bottom:18px}
+    h2{margin:0 0 8px; font-size:22px}
+    h3{margin:16px 0 6px; font-size:18px}
+    p{margin:8px 0}
+    ul{margin:8px 0 8px 18px}
+    li{margin:6px 0}
+    code, pre{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    pre{background:var(--code); border:1px solid var(--border); border-radius:12px; padding:14px; overflow:auto}
+
+    .note{border-left:3px solid var(--brand); padding-left:12px; color:var(--muted)}
+    .list-bad{color:#ffb3a7}
+    .kv{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+    .kv span{background:rgba(255,255,255,.04); border:1px solid var(--border); padding:6px 10px; border-radius:999px; font-size:13px}
+
+    .foot{margin-top:26px; color:var(--muted); font-size:13px; text-align:center}
+
+    /* mobile */
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+      nav{position:relative; top:auto}
+    }
+
+    /* print */
+    @media print{
+      body{background:#fff; color:#111}
+      header, nav{display:none}
+      section{page-break-inside:avoid; border:none}
+      a{color:#000}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <span class="badge">DRAFT</span>
+      <div class="title">Nominal Network — White Paper</div>
+      <div class="version">v0.1 · Last updated: 2025‑10‑16</div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <h1>Vision</h1>
+      <p>Nominal Network removes hardware and know‑how barriers with an <strong>accessible</strong>, <strong>phone‑friendly</strong>, and <strong>fair</strong> earning experience. We rely on a <strong>server‑authoritative session model</strong>, grow with multilingual communities, and uphold security, privacy, and compliance while exploring responsible use of AI, post‑quantum readiness, and volumetric/holographic interfaces.</p>
+      <h3>Mission</h3>
+      <p>Operate a <strong>community‑centric</strong> network where users start <strong>8‑hour sessions</strong> with one tap, sustained by a constant baseline rate and strict anti‑abuse rules. Keep participation simple and fast while building a durable product and ecosystem.</p>
+      <p class="note"><strong>Draft Notice:</strong> This document is preliminary and subject to change before listing and regulatory reviews. Nothing herein is investment advice.</p>
+      <div class="kv">
+        <span>Server‑authoritative</span>
+        <span>Constant baseline</span>
+        <span>Anti‑abuse first</span>
+        <span>Privacy & compliance</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <nav>
+        <strong>Contents</strong>
+        <a href="#abstract">1) Abstract</a>
+        <a href="#problem">2) Problem & Value</a>
+        <a class="sec" href="#product">3) Product</a>
+        <a class="sec" href="#economy">4) Economy & Token</a>
+        <a class="sec" href="#tech">5) Tech Stack</a>
+        <a class="sec" href="#security">6) Security & Privacy</a>
+        <a class="sec" href="#fairness">7) Fairness & Anti‑Abuse</a>
+        <a class="sec" href="#community">8) Community</a>
+        <a class="sec" href="#team">9) Team</a>
+        <a class="sec" href="#compliance">10) Compliance</a>
+        <a class="sec" href="#risk">11) Risk</a>
+        <a class="sec" href="#faq">12) FAQ</a>
+        <a class="sec" href="#roadmap">Roadmap (Draft)</a>
+      </nav>
+
+      <main>
+        <section id="abstract">
+          <h2>1) Abstract</h2>
+          <p>Nominal Network is a mobile‑first earning system where users start <strong>8‑hour sessions</strong> with one button. <strong>Referral</strong> and <strong>in‑app boosts</strong> can increase the effective rate. No expensive rigs are required; any modern smartphone can participate. The experience is multilingual, device‑light, and governed by server time.</p>
+          <ul>
+            <li><strong>User‑friendly:</strong> Simple flows, multilingual UI.</li>
+            <li><strong>Constant baseline:</strong> We do not plan to reduce the baseline rate after listing.</li>
+            <li><strong>Device‑light:</strong> Server validates sessions; device handles UI and notifications.</li>
+            <li><strong>Security‑minded:</strong> Encrypted transport, strict rules, and anti‑abuse controls.</li>
+          </ul>
+          <p class="note"><strong>Terminology:</strong> “Cloud mining” here does <em>not</em> mean renting PoW/PoS hash power. We use a server‑authoritative session model that mints <strong>off‑chain points</strong> which may later convert to <strong>NC</strong> under announced rules.</p>
+        </section>
+
+        <section id="problem">
+          <h2>2) Problem & Value Proposition</h2>
+          <p><strong>Problem.</strong> Traditional crypto mining demands high CAPEX, complex setup, and power usage—limiting access.</p>
+          <p><strong>Value.</strong> Single‑tap sessions accrue <strong>off‑chain points</strong> at a stable baseline rate, optionally augmented by referrals and boosts. The device is not taxed; server logic ensures fairness and integrity.</p>
+        </section>
+
+        <section id="product">
+          <h2>3) Product: Flow & Mechanics</h2>
+          <h3>3.1 Basic Flow</h3>
+          <ol>
+            <li><strong>Start:</strong> User taps Start Mining.</li>
+            <li><strong>Session:</strong> Server records an 8‑hour session.</li>
+            <li><strong>Accrual:</strong> Points accrue during the session on the server.</li>
+            <li><strong>Settlement:</strong> Server atomically adds earned points at completion.</li>
+            <li><strong>Notification:</strong> Optional reminders to restart.</li>
+          </ol>
+          <h3>3.2 Rate Model</h3>
+          <ul>
+            <li><strong>Constant baseline</strong> for all users; no planned reduction post‑listing.</li>
+            <li><strong>Boosts</strong> as time‑bounded multipliers.</li>
+            <li><strong>Referrals</strong> with anti‑spam safeguards.</li>
+          </ul>
+          <h3>3.3 Device Impact</h3>
+          <ul>
+            <li>No heavy CPU/GPU workloads.</li>
+            <li>Server timestamps and rules enforce timing and settlement.</li>
+          </ul>
+        </section>
+
+        <section id="economy">
+          <h2>4) Economy & Token Design (Draft)</h2>
+          <h3>4.1 Unit & Positioning</h3>
+          <p>Today’s earnings are <strong>off‑chain points</strong>. The <strong>NC token</strong> is planned; conversion rules and timing will be announced.</p>
+          <h3>4.2 Total Supply (Draft)</h3>
+          <p><strong>Indicative cap:</strong> <strong>25,000,000,000 NC</strong> (25B; subject to change prior to listing).</p>
+          <h3>4.3 Distribution Ranges (Draft)</h3>
+          <ul>
+            <li>Community Mining & Rewards: <strong>50–60%</strong></li>
+            <li>Ecosystem & Developer Incentives: <strong>10–20%</strong></li>
+            <li>Team & Advisors (Vesting): <strong>8–12%</strong></li>
+            <li>Liquidity & Exchange Partnerships: <strong>5–10%</strong></li>
+            <li>Marketing & Growth: <strong>5–10%</strong></li>
+            <li>Reserve & Treasury: <strong>3–7%</strong></li>
+          </ul>
+          <p class="note"><strong>No 1:1 guarantee:</strong> Conversion may be proportional, considering pool allocation, participation duration, activity, anti‑abuse cleans, and supply.</p>
+          <h3>4.5 Monetization</h3>
+          <ul>
+            <li>Ads and partnerships may support the ecosystem.</li>
+            <li>Boosts enhance experience—not a financial promise.</li>
+          </ul>
+        </section>
+
+        <section id="tech">
+          <h2>5) Tech Stack & Architecture</h2>
+          <ul>
+            <li><strong>Client (Flutter/Dart):</strong> i18n, theming, low memory footprint, performance profiling.</li>
+            <li><strong>Backend (GCP/Firebase):</strong> Functions Gen2, Firestore (server timestamps, TTL), Cloud Tasks/Pub/Sub, Remote Config, FCM.</li>
+            <li><strong>Ads & Verification:</strong> AdMob (rewarded/interstitial/banner), SSV plan with signatures.</li>
+            <li><strong>Security:</strong> App Check, Play Integrity/DeviceCheck, rate limiting, IP/device fingerprinting, anomaly detection.</li>
+            <li><strong>Observability:</strong> Logging, Error Reporting, custom metrics, BigQuery exports; alerting.</li>
+            <li><strong>CI/CD:</strong> GitHub Actions, staged channels (internal/closed/beta/prod), controlled rollouts.</li>
+            <li><strong>Privacy & Compliance:</strong> TLS, data minimization, IAB TCF‑compliant CMP.</li>
+          </ul>
+          <h3>5.1 R&D & Innovation Focus (Draft)</h3>
+          <ul>
+            <li><strong>Hologram / Volumetric & AR Interfaces:</strong> Education/community experiences via volumetric/holographic presentations and AR onboarding prototypes.</li>
+            <li><strong>Boron & Responsible Use:</strong> Educational content and collaborations around responsible boron applications; Nominal does not run hardware mining.</li>
+            <li><strong>Post‑Quantum Readiness:</strong> Tracking PQC standards and migration strategies.</li>
+            <li><strong>Evolving AI:</strong> AI‑assisted fraud detection, personalization, multilingual support, content safety.</li>
+          </ul>
+        </section>
+
+        <section id="security">
+          <h2>6) Security, Privacy & Encryption</h2>
+          <ul>
+            <li><strong>Transport:</strong> TLS‑encrypted traffic.</li>
+            <li><strong>Access control:</strong> Firestore rules + function validation.</li>
+            <li><strong>Data minimization:</strong> Only what’s necessary; GDPR/KVKK principles.</li>
+            <li><strong>Incident handling:</strong> Freeze/suspend on abuse; appeal process with auditable logs.</li>
+          </ul>
+        </section>
+
+        <section id="fairness">
+          <h2>7) Fairness, Anti‑Abuse & Single‑Account Policy</h2>
+          <ul>
+            <li><strong>1 Person = 1 Account.</strong> Multi‑accounting is prohibited.</li>
+            <li><strong>Device/session validation:</strong> Fingerprints, IP/DNS patterns, anomaly scoring.</li>
+            <li><strong>Automation/emulator controls:</strong> Root/emulator checks; rapid‑tap patterns flagged.</li>
+            <li><strong>Referral anti‑spam:</strong> Self‑referrals/loops/farms nullified.</li>
+            <li><strong>Sanctions:</strong> Warnings → temporary suspension → permanent bans; invalidation for abuse‑gained balances.</li>
+          </ul>
+        </section>
+
+        <section id="community">
+          <h2>8) Community & Channels</h2>
+          <ul>
+            <li><strong>X (Twitter):</strong> Official updates and roadmap notes.</li>
+            <li><strong>Telegram:</strong> Community chat and announcements.</li>
+            <li><strong>YouTube (optional):</strong> How‑tos and highlights.</li>
+          </ul>
+          <p class="note">Links will be provided in the final version.</p>
+        </section>
+
+        <section id="team">
+          <h2>9) Team (Core & Advisors — Draft)</h2>
+          <ul>
+            <li><strong>Maya Thompson (USA)</strong> — Backend & Cloud Functions Lead. <em>Founding developer of Nominal Network.</em> 8+ yrs mobile backends/fintech/event‑driven systems; Functions Gen2, Firestore, idempotency; Cloud Tasks/Pub/Sub orchestration; App Check/Play Integrity, signed SSV; DR/observability/SRE; secure release pipelines.</li>
+            <li><strong>Ethan Park (Canada)</strong> — Product & Growth. Funnels, cohort analysis, activation/retention; pricing/paywall experiments; viral/referral loops; lifecycle messaging; store optimization; A/B and holdback tests.</li>
+            <li><strong>Ava Martinez (USA)</strong> — Security & Abuse Prevention. Threat modeling, device integrity, anti‑abuse pipelines; emulator/root detection; anomaly scoring; incident playbooks and bounty programs.</li>
+            <li><strong>Samet Alp (Türkiye)</strong> — App Developer & Mobile Designer. Flutter, UI/UX & motion; i18n/theming; performance profiling; a11y. Design systems, simplified flows, community feedback; QA/UAT; analytics (event schemas), BigQuery/Looker dashboards, experiments.</li>
+            <li><strong>Li Wei (China)</strong> — Distributed Systems Engineer. Consistency models, event sourcing, exactly‑once via idempotency/transactional‑outbox; load/latency profiling; multi‑tenant scaling and TTL policies.</li>
+            <li><strong>Noah Patel (Canada)</strong> — Mobile Lead (Flutter). Architecture (BLoC/Riverpod), i18n, performance, test automation; golden/widget tests; release management; native bridges/plugins; reliable CI/CD artifacts.</li>
+            <li><strong>Sophia Nguyen (USA)</strong> — Tokenomics & Data. Off‑chain→on‑chain simulations, emissions, vesting; sybil‑aware fair allocation; Monte Carlo & sensitivity analyses; liquidity/circulating supply alignment.</li>
+            <li><strong>Daniel Brooks (USA)</strong> — DevOps/SRE. Terraform IaC, observability, incident response; SLO/SLI/SLA; canary/blue‑green, autoscaling, rollback, capacity planning; backup/restore; multi‑region resilience; cost governance.</li>
+            <li><strong>Emily Carter (Canada)</strong> — Community & Partnerships. Multilingual programs and calendars; moderation policy and anti‑spam governance; creators/influencers; AMAs, education series, campaigns.</li>
+            <li><strong>Michael Johnson (USA)</strong> — Compliance & Policy. GDPR/KVKK, IAB TCF‑CMP; app‑store compliance; regional mapping; KYC provider evals; DPIA; retention/deletion; risk documentation.</li>
+            <li><strong>Yasin Alp (Türkiye)</strong> — Advisor (Crypto & Strategy). 8+ yrs crypto markets, listing workflows, exchange relations; market structure, liquidity planning, market‑maker coordination; launch risk management; listings/audits/partnerships guidance.</li>
+          </ul>
+        </section>
+
+        <section id="compliance">
+          <h2>10) Compliance, KYC/AML & Regional Policies</h2>
+          <ul>
+            <li><strong>KYC (Pre‑Listing):</strong> Required before listing, subject to regional availability. Supported regions and constraints will be announced.</li>
+            <li><strong>AML:</strong> Controls for suspicious activity and enforcement.</li>
+            <li><strong>GDPR/KVKK:</strong> Lawful basis, consent, access/erasure, data minimization.</li>
+            <li><strong>Store Policies:</strong> Communications and ads must comply with platform rules.</li>
+          </ul>
+          <p class="note">Nominal Network makes <strong>no income guarantees</strong>; returns, prices, and liquidity are not promised.</p>
+        </section>
+
+        <section id="risk">
+          <h2>11) Risk Disclosure (Summary)</h2>
+          <ul class="list-bad">
+            <li><strong>Technical:</strong> Software defects, outages, adversarial attacks.</li>
+            <li><strong>Regulatory:</strong> Regional restrictions and changing rules.</li>
+            <li><strong>Market:</strong> Token price volatility and liquidity constraints.</li>
+            <li><strong>Operational:</strong> Abuse detection may invalidate balances obtained improperly.</li>
+          </ul>
+        </section>
+
+        <section id="faq">
+          <h2>12) FAQ (Short)</h2>
+          <p><strong>Do I need to keep the phone on for 8 hours?</strong> No. Sessions and accrual are enforced by the server; the device mostly starts sessions and shows the UI.</p>
+          <p><strong>Are points 1:1 with NC?</strong> No guarantee. Conversion is proportional and rule‑based.</p>
+          <p><strong>Why KYC?</strong> To meet regulatory expectations and promote fairness before listing.</p>
+          <p><strong>Will the baseline rate drop after listing?</strong> Not planned. Sustainability relies on pool allocation and distribution rules.</p>
+        </section>
+
+        <section id="roadmap">
+          <h2>Roadmap (Target Dates — Draft)</h2>
+          <h3>App Launch</h3>
+          <p>First mobile release with core earning features. Single‑tap <strong>8‑hour</strong> sessions, server‑authoritative accrual, multilingual UI, and initial boost/referral flows. Baseline security (App Check / Play Integrity), <strong>rate limiting</strong>, and early observability (start/settlement ratios, error rates, latency).</p>
+          <h3>Community Growth</h3>
+          <p>Scale users and engagement with multilingual content, moderation guidelines, and <strong>anti‑spam</strong> rules. Referral verification flows. Activation/retention cohorts, A/B experiments, community events and creator/influencer partnerships.</p>
+          <h3>Wallet Application</h3>
+          <p>Dedicated wallet for secure token management: account creation/linking, backup/restore, core transfers, notifications. <strong>User‑friendly seed/key</strong> UX; modular chain/network support (final chain TBA).</p>
+          <h3>Wallet Testing</h3>
+          <p>Security and functionality validation: pen‑testing, key‑management validations, cold/hot storage strategies, recovery scenarios; <strong>red‑team</strong> drills, signature/transaction integrity, incident response, and logging policies.</p>
+          <h3>Token Airdrop</h3>
+          <p>Distribution to early community members and supporters with sybil/multi‑account filtering, anti‑bot verification, regional constraints, and <strong>KYC requirements</strong> (where applicable). Point→NC conversion is not 1:1; rules will be published transparently.</p>
+          <h3>Pre‑Launch Readiness</h3>
+          <p>Final technical and operational prep: final tokenomics disclosure, independent <strong>audits</strong>, performance/capacity tests, store compliance reviews, CMP/policy checks, launch campaign and community coordination.</p>
+          <h3>Official Launch</h3>
+          <p>Platform goes live with full feature set: wallet+app integrations, boost/referral v2, notification systems, and operational monitoring. Support channels, FAQs, and appeals are ready; growth experiments and marketing plans are active.</p>
+          <h3>Exchange Listing — <strong>Q4 2026 (target)</strong></h3>
+          <p>Listing to improve liquidity and access. Regional eligibility checks, KYC/AML provider integrations, market‑making principles, and risk management. Timelines and supported regions will be announced separately.</p>
+          <h3>Desktop CPU “Mining” (Desktop Client)</h3>
+          <p>Desktop app for expanded participation across Windows/macOS/Linux aligned with the <strong>server‑authoritative session model</strong>. Not heavy PoW hashing; focuses on user‑friendly flows (UI, notifications, tasks). Extends security and <strong>anti‑abuse</strong> policies to desktop environments.</p>
+        </section>
+
+        <div class="foot">
+          &copy; Nominal Network — Draft v0.1 — This document may change prior to listing.
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

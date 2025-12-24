@@ -189,10 +189,8 @@
 </head>
 
 <body>
-  <!-- Snow overlay (New Year theme) -->
   <canvas id="snow" aria-hidden="true"></canvas>
 
-  <!-- Header -->
   <header class="fixed top-0 left-0 right-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-3">
       <div class="glass rounded-2xl px-4 md:px-6 py-3 flex items-center justify-between">
@@ -214,7 +212,6 @@
           <a class="hover:text-white transition" href="#faq">FAQ</a>
         </nav>
 
-        <!-- App link (Google Play) -->
         <div class="flex items-center gap-3">
           <a
             href="https://play.google.com/store/apps/details?id=com.nominalcoin.app"
@@ -235,7 +232,6 @@
     </div>
   </header>
 
-  <!-- Hero -->
   <main id="top" class="relative pt-28 md:pt-32">
     <section class="relative overflow-hidden">
       <div class="grid-overlay"></div>
@@ -297,7 +293,6 @@
               </div>
             </div>
 
-            <!-- Right-side showcase card (NO mining button) -->
             <div class="w-full lg:w-[420px]">
               <div class="glass rounded-3xl p-6 relative overflow-hidden">
                 <div class="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-cyan-400/10 blur-3xl"></div>
@@ -351,10 +346,6 @@
                     Download the App
                   </a>
                 </div>
-
-                <p class="mt-4 text-xs text-white/55 leading-relaxed">
-                  *This page is a promotional website. Visuals are illustrative and may differ from the app UI.
-                </p>
               </div>
             </div>
           </div>
@@ -363,7 +354,6 @@
       </div>
     </section>
 
-    <!-- Features -->
     <section id="features" class="relative py-16 md:py-20">
       <div class="max-w-6xl mx-auto px-4">
         <div class="text-center fade-in">
@@ -437,7 +427,6 @@
       </div>
     </section>
 
-    <!-- Mission -->
     <section id="mission" class="relative py-16 md:py-20">
       <div class="max-w-6xl mx-auto px-4">
         <div class="glass rounded-3xl p-8 md:p-12">
@@ -494,7 +483,6 @@
       </div>
     </section>
 
-    <!-- Vision -->
     <section id="vision" class="relative py-16 md:py-20">
       <div class="max-w-6xl mx-auto px-4">
         <div class="glass rounded-3xl p-8 md:p-12">
@@ -533,8 +521,7 @@
             <div class="flex items-start gap-3">
               <i class="ri-information-line text-primary text-xl mt-0.5"></i>
               <p class="leading-relaxed">
-                <span class="text-white font-semibold">Note:</span> This website is informational and promotional.
-                It does not constitute financial advice or a guarantee of future token value.
+                <span class="text-white font-semibold">Note:</span> This website does not constitute financial advice or a guarantee of future token value.
               </p>
             </div>
           </div>
@@ -542,7 +529,6 @@
       </div>
     </section>
 
-    <!-- Roadmap -->
     <section id="roadmap" class="relative py-16 md:py-20">
       <div class="max-w-6xl mx-auto px-4">
         <div class="text-center fade-in">
@@ -598,7 +584,6 @@
       </div>
     </section>
 
-    <!-- FAQ -->
     <section id="faq" class="relative py-16 md:py-20">
       <div class="max-w-6xl mx-auto px-4">
         <div class="glass rounded-3xl p-8 md:p-12">
@@ -620,7 +605,7 @@
             <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in" style="transition-delay:.05s;">
               <h3 class="font-extrabold mb-2">Is this financial advice?</h3>
               <p class="text-white/70 leading-relaxed">
-                No. This website is informational and promotional, and it does not guarantee any future value.
+                No. This website is informational and does not guarantee any future value.
               </p>
             </div>
 
@@ -642,7 +627,6 @@
       </div>
     </section>
 
-    <!-- Download CTA -->
     <section id="download" class="relative py-16 md:py-24">
       <div class="max-w-6xl mx-auto px-4">
         <div class="glass-teal rounded-3xl p-8 md:p-12 text-center overflow-hidden relative">
@@ -680,7 +664,6 @@
       </div>
     </section>
 
-    <!-- Footer -->
     <footer class="py-10">
       <div class="max-w-6xl mx-auto px-4">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/60">
@@ -697,7 +680,6 @@
     </footer>
   </main>
 
-  <!-- Scroll reveal -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const yearEl = document.getElementById('year');
@@ -719,7 +701,6 @@
     });
   </script>
 
-  <!-- Snowfall animation (canvas) -->
   <script>
     (function snowInit(){
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -730,7 +711,7 @@
 
       let w = 0, h = 0, dpr = 1;
       const flakes = [];
-      const FLAKE_COUNT_BASE = 140; // scales with screen size
+      const FLAKE_COUNT_BASE = 140;
       let wind = 0.15;
 
       function resize(){
@@ -759,12 +740,11 @@
           a: rand(0.35, 0.95),
           drift: rand(0.6, 1.6),
           phase: rand(0, Math.PI*2),
-          tw: rand(0.003, 0.012) // twinkle speed
+          tw: rand(0.003, 0.012)
         }
       }
 
       function drawFlake(f){
-        // Soft glow + crisp core (snow crystal feel)
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r*1.8, 0, Math.PI*2);
         ctx.fillStyle = `rgba(255,255,255,${0.08*f.a})`;
@@ -775,7 +755,6 @@
         ctx.fillStyle = `rgba(255,255,255,${0.42*f.a})`;
         ctx.fill();
 
-        // Tiny “crystal” cross arms (subtle)
         ctx.save();
         ctx.translate(f.x, f.y);
         ctx.rotate(f.phase);
@@ -793,7 +772,6 @@
         const dt = Math.min(0.033, (now - last) / 1000);
         last = now;
 
-        // Gentle wind change
         wind += (Math.sin(now * 0.00035) * 0.002);
         wind = Math.max(-0.28, Math.min(0.28, wind));
 
@@ -808,10 +786,8 @@
           f.y += f.vy * (1 + dt*0.5);
           f.x += (f.vx + wind) * 20 * dt + sway * 0.18;
 
-          // Twinkle
           f.a = Math.max(0.25, Math.min(1, f.a + Math.sin(now * f.tw) * 0.0015));
 
-          // Wrap
           if (f.y > h + 10) {
             flakes[i] = makeFlake(false);
             flakes[i].x = rand(0, w);

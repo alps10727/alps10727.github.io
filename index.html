@@ -1,853 +1,349 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nominal Coin — Mine. Earn. Empower.</title>
-
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-
-  <!-- Fonts + Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
-
-  <meta name="description" content="Nominal Coin: a next-gen mobile mining experience focused on fairness, transparency, and community-powered digital value." />
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#00ffff',
-            secondary: '#0891b2',
-            ink: '#070A0F',
-            panel: 'rgba(0,255,255,0.06)',
-            line: 'rgba(0,255,255,0.22)',
-            frost: 'rgba(255,255,255,0.08)',
-            holiday: '#ff3b3b'
-          },
-          fontFamily: {
-            pacifico: ['Pacifico', 'serif'],
-            inter: ['Inter', 'sans-serif']
-          },
-          borderRadius: {
-            '2xl': '24px',
-            '3xl': '32px'
-          }
-        }
-      }
-    }
-  </script>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nominal Network — White Paper (Draft v0.2)</title>
+  <meta name="description" content="Nominal Network white paper (Draft v0.2): 12-hour server-authoritative sessions, constant baseline rate, anti-abuse, points→NC plan, security & compliance." />
+  <link rel="canonical" href="https://nominalcoin.app/whitepaper/v0.2" />
+  <meta property="og:title" content="Nominal Network — White Paper (Draft v0.2)" />
+  <meta property="og:description" content="12-hour server-authoritative sessions, constant baseline, anti-abuse, points→NC plan, security & compliance." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://nominalcoin.app/whitepaper/v0.2" />
+  <meta name="theme-color" content="#0fb9b1" />
   <style>
     :root{
-      --c-primary:#00ffff;
-      --c-secondary:#0891b2;
-      --bg-0:#000;
-      --bg-1:#05070b;
-      --glass: rgba(0,255,255,0.06);
-      --glass-2: rgba(255,255,255,0.06);
-      --line: rgba(0,255,255,0.22);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.68);
-      --shadow: 0 20px 60px rgba(0,0,0,0.55);
+      --bg:#0b0d10;
+      --panel:#11151a;
+      --text:#e8eef5;
+      --muted:#a9b6c4;
+      --brand:#0fb9b1;
+      --accent:#6c5ce7;
+      --ok:#2ecc71;
+      --warn:#f1c40f;
+      --bad:#e74c3c;
+      --code:#0a0e13;
+      --border:#1d232c;
     }
-
-    *{ box-sizing:border-box; }
-    html, body{ height:100%; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
-      font-family:'Inter', sans-serif;
-      background: radial-gradient(1200px 800px at 10% 10%, rgba(0,255,255,0.10), transparent 55%),
-                  radial-gradient(900px 700px at 90% 25%, rgba(8,145,178,0.12), transparent 60%),
-                  radial-gradient(900px 700px at 40% 110%, rgba(0,255,255,0.10), transparent 55%),
-                  linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
-      color: var(--text);
-      overflow-x:hidden;
-      scroll-behavior:smooth;
+      margin:0; font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--text); background:linear-gradient(180deg, #0b0d10 0%, #0c1218 100%);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
-
-    /* Snow canvas overlay */
-    #snow {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 50;
-      opacity: 0.92;
-      mix-blend-mode: screen;
+    .wrap{max-width:1100px; margin:0 auto; padding:32px 20px 80px}
+    header{
+      position:sticky; top:0; z-index:20; backdrop-filter:saturate(120%) blur(8px);
+      background:linear-gradient(180deg, rgba(11,13,16,.85), rgba(11,13,16,.65)); border-bottom:1px solid var(--border);
     }
-
-    /* Decorative overlays */
-    .grid-overlay{
-      position:absolute; inset:0;
-      background-image:
-        linear-gradient(rgba(0,255,255,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,255,0.06) 1px, transparent 1px);
-      background-size: 56px 56px;
-      mask-image: radial-gradient(circle at 50% 30%, black 0%, transparent 70%);
-      opacity: 0.8;
-      animation: gridMove 16s linear infinite;
-      pointer-events:none;
+    header .bar{max-width:1100px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:16px}
+    .badge{display:inline-block; padding:4px 10px; border-radius:999px; font-weight:600; font-size:12px; letter-spacing:.3px; background:rgba(15,185,177,.12); color:#8ff5f0; border:1px solid rgba(15,185,177,.35)}
+    .title{font-size:18px; font-weight:700}
+    .version{margin-left:auto; font-size:13px; color:var(--muted)}
+    .hero{margin-top:24px; background:radial-gradient(600px 220px at 20% -30%, rgba(15,185,177,.18), transparent 70%), radial-gradient(500px 200px at 90% -40%, rgba(108,92,231,.12), transparent 70%); border:1px solid var(--border); border-radius:16px; padding:28px}
+    h1{margin:0 0 6px; font-size:28px}
+    .sub{color:var(--muted)}
+    .grid{display:grid; grid-template-columns:280px 1fr; gap:28px; margin-top:24px}
+    nav{position:sticky; top:72px; align-self:start; background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px}
+    nav strong{display:block; font-size:13px; color:var(--muted); margin-bottom:10px}
+    nav a{display:block; color:var(--text); text-decoration:none; padding:6px 8px; border-radius:8px; font-size:14px; opacity:.9}
+    nav a:hover{background:#0c131a}
+    nav .sec{margin-top:8px}
+    section{background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:22px 22px; margin-bottom:18px}
+    h2{margin:0 0 8px; font-size:22px}
+    h3{margin:16px 0 6px; font-size:18px}
+    p{margin:8px 0}
+    ul,ol{margin:8px 0 8px 18px}
+    li{margin:6px 0}
+    code, pre{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    pre{background:var(--code); border:1px solid var(--border); border-radius:12px; padding:14px; overflow:auto}
+    .note{border-left:3px solid var(--brand); padding-left:12px; color:var(--muted)}
+    .list-bad{color:#ffb3a7}
+    .kv{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+    .kv span{background:rgba(255,255,255,.04); border:1px solid var(--border); padding:6px 10px; border-radius:999px; font-size:13px}
+    .foot{margin-top:26px; color:var(--muted); font-size:13px; text-align:center}
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+      nav{position:relative; top:auto}
     }
-    @keyframes gridMove { 0%{ transform: translateY(0);} 100%{ transform: translateY(56px);} }
-
-    .glow-text{ text-shadow: 0 0 18px rgba(0,255,255,0.55), 0 0 38px rgba(0,255,255,0.32); }
-    .glow-border{
-      border: 1px solid rgba(0,255,255,0.45);
-      box-shadow: 0 0 28px rgba(0,255,255,0.22), inset 0 0 18px rgba(0,255,255,0.10);
-    }
-    .glass{
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
-      border: 1px solid rgba(255,255,255,0.10);
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
-    }
-    .glass-teal{
-      background: linear-gradient(180deg, rgba(0,255,255,0.10), rgba(0,255,255,0.04));
-      border: 1px solid rgba(0,255,255,0.22);
-      backdrop-filter: blur(14px);
-    }
-
-    .chip{
-      display:inline-flex; align-items:center; gap:.5rem;
-      padding:.35rem .7rem;
-      border-radius:999px;
-      background: rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.10);
-      color: rgba(255,255,255,0.82);
-      font-size:.85rem;
-    }
-
-    .cta{
-      background: linear-gradient(45deg, var(--c-primary), var(--c-secondary));
-      transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
-      box-shadow: 0 12px 40px rgba(0,255,255,0.25);
-    }
-    .cta:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 18px 55px rgba(0,255,255,0.34);
-      filter: saturate(1.08);
-    }
-
-    .outline-btn{
-      border:1px solid rgba(0,255,255,0.35);
-      background: rgba(0,255,255,0.06);
-      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
-    }
-    .outline-btn:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 16px 40px rgba(0,255,255,0.16);
-      background: rgba(0,255,255,0.10);
-    }
-
-    .fade-in{
-      opacity:0;
-      transform: translateY(18px);
-      transition: opacity .8s ease, transform .8s ease;
-    }
-    .fade-in.visible{ opacity:1; transform: translateY(0); }
-
-    /* Timeline */
-    .timeline{
-      position:relative;
-    }
-    .timeline::before{
-      content:"";
-      position:absolute;
-      left: 18px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, rgba(0,255,255,0.55), transparent);
-    }
-    .tl-item{
-      position:relative;
-      padding-left: 60px;
-    }
-    .tl-dot{
-      position:absolute;
-      left: 10px;
-      top: 18px;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      background: rgba(0,255,255,0.9);
-      box-shadow: 0 0 18px rgba(0,255,255,0.7);
-    }
-
-    /* Holiday ribbon */
-    .ribbon{
-      position:absolute;
-      top: 18px;
-      right: -60px;
-      transform: rotate(12deg);
-      background: linear-gradient(90deg, rgba(255,59,59,0.95), rgba(255,180,0,0.92));
-      color: #0b0b0b;
-      padding: .55rem 4.2rem;
-      border-radius: 999px;
-      font-weight: 800;
-      letter-spacing: .04em;
-      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
-    }
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      * { scroll-behavior: auto !important; }
-      .grid-overlay{ animation:none !important; }
-      .fade-in{ transition:none !important; }
-      #snow{ display:none !important; }
+    @media print{
+      body{background:#fff; color:#111}
+      header, nav{display:none}
+      section{page-break-inside:avoid; border:none}
+      a{color:#000}
     }
   </style>
 </head>
-
 <body>
-  <!-- Snow overlay (New Year theme) -->
-  <canvas id="snow" aria-hidden="true"></canvas>
-
-  <!-- Header -->
-  <header class="fixed top-0 left-0 right-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 py-3">
-      <div class="glass rounded-2xl px-4 md:px-6 py-3 flex items-center justify-between">
-        <a href="#top" class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl glow-border flex items-center justify-center">
-            <span class="font-black text-primary glow-text">N</span>
-          </div>
-          <div class="leading-tight">
-            <div class="font-semibold tracking-tight">Nominal Coin</div>
-            <div class="text-xs text-white/60 -mt-0.5">Mine • Earn • Empower</div>
-          </div>
-        </a>
-
-        <nav class="hidden md:flex items-center gap-6 text-sm text-white/75">
-          <a class="hover:text-white transition" href="#features">Features</a>
-          <a class="hover:text-white transition" href="#mission">Mission</a>
-          <a class="hover:text-white transition" href="#vision">Vision</a>
-          <a class="hover:text-white transition" href="#roadmap">Roadmap</a>
-          <a class="hover:text-white transition" href="#faq">FAQ</a>
-        </nav>
-
-        <!-- App link (Google Play) -->
-        <div class="flex items-center gap-3">
-          <a
-            href="https://play.google.com/store/apps/details?id=com.nominalcoin.app"
-            target="_blank"
-            rel="noopener"
-            class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl cta text-black font-extrabold"
-            title="Open on Google Play"
-          >
-            <i class="ri-google-play-fill text-lg"></i>
-            Get the App
-          </a>
-          <a href="#download" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl outline-btn text-white font-semibold">
-            <i class="ri-arrow-down-line"></i>
-            Download
-          </a>
-        </div>
-      </div>
+  <header>
+    <div class="bar">
+      <span class="badge">DRAFT</span>
+      <div class="title">Nominal Network — White Paper</div>
+      <div class="version">v0.2 · Last updated: 2025-12-24</div>
     </div>
   </header>
 
-  <!-- Hero -->
-  <main id="top" class="relative pt-28 md:pt-32">
-    <section class="relative overflow-hidden">
-      <div class="grid-overlay"></div>
-
-      <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 relative">
-        <div class="glass-teal rounded-3xl p-8 md:p-12 relative overflow-hidden">
-          <div class="ribbon">Happy New Year ✨</div>
-
-          <div class="flex flex-col lg:flex-row items-start lg:items-center gap-10">
-            <div class="flex-1">
-              <div class="flex flex-wrap items-center gap-2 mb-6">
-                <span class="chip"><i class="ri-snowflake-line"></i> Holiday Theme (temporary)</span>
-                <span class="chip"><i class="ri-shield-check-line"></i> Server-time sessions</span>
-                <span class="chip"><i class="ri-community-line"></i> Community-powered</span>
-              </div>
-
-              <h1 class="text-4xl md:text-6xl font-black leading-tight glow-text">
-                Mine. Earn. Empower.
-              </h1>
-              <p class="mt-5 text-lg md:text-xl text-white/75 leading-relaxed max-w-2xl">
-                Nominal Coin is a mobile mining experience built around <span class="text-white font-semibold">fairness</span>,
-                <span class="text-white font-semibold">transparency</span>, and <span class="text-white font-semibold">real engagement</span>.
-                Earn by staying active, growing your level, and supporting the network — with sessions governed by server time.
-              </p>
-
-              <div class="mt-8 flex flex-col sm:flex-row gap-3">
-                <a
-                  href="https://play.google.com/store/apps/details?id=com.nominalcoin.app"
-                  target="_blank"
-                  rel="noopener"
-                  class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl cta text-black font-extrabold"
-                >
-                  <i class="ri-google-play-fill text-xl"></i>
-                  Get it on Google Play
-                </a>
-                <a href="#features" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl outline-btn font-semibold">
-                  <i class="ri-sparkling-2-line"></i>
-                  Explore Features
-                </a>
-              </div>
-
-              <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div class="glass rounded-2xl p-4">
-                  <div class="text-xs text-white/60">Session</div>
-                  <div class="text-lg font-extrabold text-primary">12 hours</div>
-                </div>
-                <div class="glass rounded-2xl p-4">
-                  <div class="text-xs text-white/60">Focus</div>
-                  <div class="text-lg font-extrabold">Fair rewards</div>
-                </div>
-                <div class="glass rounded-2xl p-4">
-                  <div class="text-xs text-white/60">Security</div>
-                  <div class="text-lg font-extrabold">Anti-abuse</div>
-                </div>
-                <div class="glass rounded-2xl p-4">
-                  <div class="text-xs text-white/60">Community</div>
-                  <div class="text-lg font-extrabold">Growth loops</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Visual mock card -->
-            <div class="w-full lg:w-[420px]">
-              <div class="glass rounded-3xl p-6 relative overflow-hidden">
-                <div class="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-cyan-400/10 blur-3xl"></div>
-                <div class="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-sky-400/10 blur-3xl"></div>
-
-                <div class="flex items-center justify-between mb-6">
-                  <div class="flex items-center gap-2">
-                    <i class="ri-snowflake-line text-white/80"></i>
-                    <span class="text-sm text-white/70">Holiday Mining UI</span>
-                  </div>
-                  <span class="chip"><i class="ri-star-smile-line"></i> Premium feel</span>
-                </div>
-
-                <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <div class="text-xs text-white/60">Balance</div>
-                      <div class="text-2xl font-extrabold">1,284 <span class="text-white/60 text-base">NC</span></div>
-                    </div>
-                    <div class="w-12 h-12 rounded-2xl glow-border flex items-center justify-center">
-                      <i class="ri-flashlight-line text-primary text-2xl"></i>
-                    </div>
-                  </div>
-
-                  <div class="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <div class="flex items-center justify-between text-sm">
-                      <span class="text-white/70">Next claim</span>
-                      <span class="text-white font-semibold">Server time</span>
-                    </div>
-                    <div class="mt-3 h-2 rounded-full bg-white/10 overflow-hidden">
-                      <div class="h-full w-[62%] bg-gradient-to-r from-cyan-300 to-sky-400"></div>
-                    </div>
-                    <div class="mt-2 text-xs text-white/60">Stay active to maximize your session.</div>
-                  </div>
-
-                  <button class="mt-5 w-full py-3 rounded-2xl cta text-black font-extrabold">
-                    Start Mining
-                  </button>
-                </div>
-
-                <p class="mt-4 text-xs text-white/55 leading-relaxed">
-                  *This is a UI concept preview for the site. Features vary by app version.
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </div>
+  <div class="wrap">
+    <div class="hero">
+      <h1>Vision</h1>
+      <p>Nominal Network removes hardware and know-how barriers with an <strong>accessible</strong>, <strong>phone-friendly</strong>, and <strong>fair</strong> earning experience. We rely on a <strong>server-authoritative session model</strong>, grow with multilingual communities, and uphold security, privacy, and compliance.</p>
+      <h3>Mission</h3>
+      <p>Operate a <strong>community-centric</strong> network where users start <strong>12-hour sessions</strong> with one tap, sustained by a constant baseline rate and strict anti-abuse rules. Keep participation simple and fast while building a durable product, seasonal events, and a transparent reward ecosystem.</p>
+      <p class="note"><strong>Draft Notice:</strong> This document is preliminary and subject to change before listing and regulatory reviews. Nothing herein is investment advice. Nominal Network makes <strong>no income guarantees</strong>.</p>
+      <div class="kv">
+        <span>Server-authoritative</span>
+        <span>12-hour sessions</span>
+        <span>Constant baseline</span>
+        <span>Anti-abuse first</span>
+        <span>Privacy & compliance</span>
       </div>
-    </section>
+    </div>
 
-    <!-- Features -->
-    <section id="features" class="relative py-16 md:py-20">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="text-center fade-in">
-          <h2 class="text-3xl md:text-4xl font-black mb-3">Built for trust, retention, and momentum</h2>
-          <p class="text-white/70 max-w-3xl mx-auto leading-relaxed">
-            A clean, modern experience that rewards real engagement — with clear progression, server-authoritative timing, and community growth loops.
-          </p>
+    <div class="grid">
+      <nav>
+        <strong>Contents</strong>
+        <a href="#abstract">1) Abstract</a>
+        <a href="#problem">2) Problem & Value</a>
+        <a class="sec" href="#product">3) Product</a>
+        <a class="sec" href="#economy">4) Economy & Token</a>
+        <a class="sec" href="#tech">5) Tech Stack</a>
+        <a class="sec" href="#security">6) Security & Privacy</a>
+        <a class="sec" href="#fairness">7) Fairness & Anti-Abuse</a>
+        <a class="sec" href="#community">8) Community</a>
+        <a class="sec" href="#team">9) Team</a>
+        <a class="sec" href="#compliance">10) Compliance</a>
+        <a class="sec" href="#risk">11) Risk</a>
+        <a class="sec" href="#faq">12) FAQ</a>
+        <a class="sec" href="#roadmap">Roadmap (Draft)</a>
+      </nav>
+
+      <main>
+        <section id="abstract">
+          <h2>1) Abstract</h2>
+          <p>Nominal Network is a mobile-first earning system where users start <strong>12-hour sessions</strong> with one button. <strong>Referral</strong> and <strong>in-app boosts</strong> can increase the effective rate. No expensive rigs are required; any modern smartphone can participate. The experience is multilingual, device-light, and governed by server time.</p>
+          <ul>
+            <li><strong>User-friendly:</strong> Simple flows, multilingual UI.</li>
+            <li><strong>Constant baseline:</strong> We do not plan to reduce the baseline rate after listing.</li>
+            <li><strong>Engagement loops:</strong> Daily tasks, streaks, and seasonal events designed for retention (no financial promises).</li>
+            <li><strong>Device-light:</strong> Server validates sessions; device handles UI and notifications.</li>
+            <li><strong>Security-minded:</strong> Encrypted transport, strict rules, and anti-abuse controls.</li>
+          </ul>
+          <p class="note"><strong>Terminology:</strong> “Cloud mining” here does <em>not</em> mean renting PoW/PoS hash power. We use a server-authoritative session model that mints <strong>off-chain points</strong> which may later convert to <strong>NC</strong> under announced rules.</p>
+        </section>
+
+        <section id="problem">
+          <h2>2) Problem & Value Proposition</h2>
+          <p><strong>Problem.</strong> Traditional crypto mining demands high CAPEX, complex setup, and power usage—limiting access.</p>
+          <p><strong>Value.</strong> Single-tap sessions accrue <strong>off-chain points</strong> at a stable baseline rate, optionally augmented by referrals, boosts, and engagement rewards. The device is not taxed; server logic enforces timing, settlement, and fairness.</p>
+        </section>
+
+        <section id="product">
+          <h2>3) Product: Flow & Mechanics</h2>
+
+          <h3>3.1 Basic Flow (Server-Authoritative)</h3>
+          <ol>
+            <li><strong>Start:</strong> User taps Start Mining.</li>
+            <li><strong>Session:</strong> Server records a <strong>12-hour</strong> session start timestamp.</li>
+            <li><strong>Accrual:</strong> Points accrue under server rules (device clock is not trusted).</li>
+            <li><strong>Settlement:</strong> At completion, server atomically adds earned points. (No duplicate claims.)</li>
+            <li><strong>Notification:</strong> Optional reminders to restart.</li>
+          </ol>
+
+          <h3>3.2 Session Integrity</h3>
+          <ul>
+            <li><strong>Server time:</strong> Session duration and eligibility are validated on the backend.</li>
+            <li><strong>Idempotency:</strong> Settlement is designed to be safe against repeated taps/retries.</li>
+            <li><strong>No heavy mining:</strong> The app does not perform PoW hashing; it is participation-based.</li>
+          </ul>
+
+          <h3>3.3 Rate Model</h3>
+          <ul>
+            <li><strong>Constant baseline</strong> for all users; no planned reduction post-listing.</li>
+            <li><strong>Boosts</strong> as time-bounded multipliers (limited, monitored, and abuse-protected).</li>
+            <li><strong>Referrals</strong> with anti-spam safeguards and quality checks.</li>
+          </ul>
+
+          <h3>3.4 Progression & Experience (Retention Without Promises)</h3>
+          <ul>
+            <li><strong>Element progression:</strong> Air → Water → Earth → Fire themes and visual upgrades tied to level/activity.</li>
+            <li><strong>Daily tasks & streaks:</strong> Simple goals that reward consistent participation.</li>
+            <li><strong>Seasonal events:</strong> Limited-time events (e.g., New Year) with cosmetic rewards and community missions.</li>
+            <li><strong>Lucky Wheel (optional):</strong> A chance-based in-app feature for engagement rewards; rate limits and fairness rules apply.</li>
+          </ul>
+
+          <h3>3.5 Device Impact</h3>
+          <ul>
+            <li>No heavy CPU/GPU workloads.</li>
+            <li>Battery-friendly UI; backend controls session correctness.</li>
+          </ul>
+        </section>
+
+        <section id="economy">
+          <h2>4) Economy & Token Design (Draft)</h2>
+
+          <h3>4.1 Unit & Positioning</h3>
+          <p>Today’s earnings are <strong>off-chain points</strong>. The <strong>NC token</strong> is planned; conversion rules and timing will be announced.</p>
+
+          <h3>4.2 Total Supply (Draft)</h3>
+          <p><strong>Total supply:</strong> <strong>2.5 billion NC</strong>.</p>
+
+          <h3>4.3 Distribution Ranges (Draft)</h3>
+          <ul>
+            <li>Community Mining & Rewards: <strong>50–60%</strong></li>
+            <li>Ecosystem & Developer Incentives: <strong>10–20%</strong></li>
+            <li>Team & Advisors (Vesting): <strong>8–12%</strong></li>
+            <li>Liquidity & Exchange Partnerships: <strong>5–10%</strong></li>
+            <li>Marketing & Growth: <strong>5–10%</strong></li>
+            <li>Reserve & Treasury: <strong>3–7%</strong></li>
+          </ul>
+
+          <p class="note"><strong>No 1:1 guarantee:</strong> Conversion may be proportional, considering pool allocation, participation duration, activity signals, anti-abuse cleans, and supply constraints.</p>
+
+          <h3>4.4 Fair Allocation Principles (Draft)</h3>
+          <ul>
+            <li><strong>Sybil resistance:</strong> Multi-account attempts can be filtered and invalidated.</li>
+            <li><strong>Quality signals:</strong> Legit participation, retention, and verified actions may influence allocation.</li>
+            <li><strong>Transparency:</strong> Final rules will be published before conversion windows.</li>
+          </ul>
+
+          <h3>4.5 Monetization</h3>
+          <ul>
+            <li>Ads and partnerships may support the ecosystem.</li>
+            <li>Optional boosts/cosmetics enhance experience—not a financial promise.</li>
+          </ul>
+        </section>
+
+        <section id="tech">
+          <h2>5) Tech Stack & Architecture</h2>
+          <ul>
+            <li><strong>Client (Flutter/Dart):</strong> i18n, theming, low memory footprint, performance profiling.</li>
+            <li><strong>Backend (GCP/Firebase):</strong> Functions Gen2, Firestore (server timestamps, TTL), Cloud Tasks/Pub/Sub, Remote Config, FCM.</li>
+            <li><strong>Ads & Verification:</strong> AdMob (rewarded/interstitial/banner), optional SSV plan with signatures.</li>
+            <li><strong>Security:</strong> App Check, Play Integrity/DeviceCheck, rate limiting, IP/device fingerprinting, anomaly detection.</li>
+            <li><strong>Observability:</strong> Logging, Error Reporting, custom metrics, BigQuery exports; alerting.</li>
+            <li><strong>CI/CD:</strong> GitHub Actions, staged channels (internal/closed/beta/prod), controlled rollouts.</li>
+            <li><strong>Privacy & Compliance:</strong> TLS, data minimization, consent flows and CMP (where required).</li>
+          </ul>
+
+          <h3>5.1 Anti-Abuse Engineering (Draft)</h3>
+          <ul>
+            <li><strong>Server-side rules:</strong> Session validation, idempotent settlement, replay protection.</li>
+            <li><strong>Risk scoring:</strong> Device integrity signals, anomaly patterns, referral graph checks.</li>
+            <li><strong>Progressive enforcement:</strong> Warnings → cooldowns → suspensions → bans (with appeal path).</li>
+          </ul>
+        </section>
+
+        <section id="security">
+          <h2>6) Security, Privacy & Encryption</h2>
+          <ul>
+            <li><strong>Transport:</strong> TLS-encrypted traffic.</li>
+            <li><strong>Access control:</strong> Firestore rules + function validation.</li>
+            <li><strong>Data minimization:</strong> Only what’s necessary; GDPR/KVKK principles.</li>
+            <li><strong>Incident handling:</strong> Freeze/suspend on abuse; appeal process with auditable logs.</li>
+          </ul>
+        </section>
+
+        <section id="fairness">
+          <h2>7) Fairness, Anti-Abuse & Single-Account Policy</h2>
+          <ul>
+            <li><strong>1 Person = 1 Account.</strong> Multi-accounting is prohibited.</li>
+            <li><strong>Device/session validation:</strong> Fingerprints, IP/DNS patterns, anomaly scoring.</li>
+            <li><strong>Automation/emulator controls:</strong> Root/emulator checks; rapid-tap patterns flagged.</li>
+            <li><strong>Referral anti-spam:</strong> Self-referrals, loops, and farms nullified.</li>
+            <li><strong>Sanctions:</strong> Warnings → temporary suspension → permanent bans; invalidation for abuse-gained balances.</li>
+          </ul>
+          <p class="note">Fairness is enforced to protect real users. Enforcement actions may reduce or invalidate balances obtained through abuse.</p>
+        </section>
+
+        <section id="community">
+          <h2>8) Community & Channels</h2>
+          <ul>
+            <li><strong>X (Twitter):</strong> Official updates, releases, and roadmap notes.</li>
+            <li><strong>Telegram:</strong> Community chat, announcements, and moderation support.</li>
+            <li><strong>Store Listing:</strong> Public release notes and update transparency.</li>
+          </ul>
+          <p class="note">Official links will be included in the final version.</p>
+        </section>
+
+        <section id="team">
+          <h2>9) Team (Draft)</h2>
+          <ul>
+            <li><strong>Samet Alp (Türkiye)</strong> — Founder / Mobile Developer & Product. Flutter, UI/UX, theming, i18n, analytics, release management.</li>
+            <li><strong>Yasin Alp (Türkiye)</strong> — Advisor (Crypto & Strategy). Listing workflows, exchange relations, launch risk management, market structure guidance.</li>
+          </ul>
+          <p class="note">Additional contributors, advisors, and partners may be added later with verified identities and roles.</p>
+        </section>
+
+        <section id="compliance">
+          <h2>10) Compliance, KYC/AML & Regional Policies</h2>
+          <ul>
+            <li><strong>KYC (Pre-Listing):</strong> May be required before listing, subject to regional availability. Supported regions and constraints will be announced.</li>
+            <li><strong>AML:</strong> Controls for suspicious activity and enforcement where applicable.</li>
+            <li><strong>GDPR/KVKK:</strong> Lawful basis, consent, access/erasure, data minimization.</li>
+            <li><strong>Store Policies:</strong> Communications and ads must comply with platform rules.</li>
+          </ul>
+          <p class="note">Nominal Network makes <strong>no income guarantees</strong>; returns, prices, and liquidity are not promised.</p>
+        </section>
+
+        <section id="risk">
+          <h2>11) Risk Disclosure (Summary)</h2>
+          <ul class="list-bad">
+            <li><strong>Technical:</strong> Software defects, outages, adversarial attacks.</li>
+            <li><strong>Regulatory:</strong> Regional restrictions and changing rules.</li>
+            <li><strong>Market:</strong> Token price volatility and liquidity constraints.</li>
+            <li><strong>Operational:</strong> Abuse detection may invalidate balances obtained improperly.</li>
+          </ul>
+        </section>
+
+        <section id="faq">
+          <h2>12) FAQ (Short)</h2>
+          <p><strong>Do I need to keep the phone on for 12 hours?</strong> No. Sessions and accrual are enforced by the server; the device mostly starts sessions and shows the UI.</p>
+          <p><strong>Can I claim points early (before 12 hours)?</strong> The intended model settles on completion; partial settlement rules (if any) would be explicitly announced.</p>
+          <p><strong>Are points 1:1 with NC?</strong> No guarantee. Conversion is proportional and rule-based.</p>
+          <p><strong>Why KYC?</strong> To meet regulatory expectations and promote fairness before listing (region-dependent).</p>
+          <p><strong>Will the baseline rate drop after listing?</strong> Not planned. Sustainability relies on pool allocation, monetization, and distribution rules.</p>
+        </section>
+
+        <section id="roadmap">
+          <h2>Roadmap (Target Dates — Draft)</h2>
+
+          <h3>Core App (Live)</h3>
+          <p>Mobile release with core earning features. Single-tap <strong>12-hour</strong> sessions, server-authoritative accrual, multilingual UI, and initial boost/referral flows. Baseline security (App Check / Play Integrity), rate limiting, and early observability (start/settlement ratios, error rates, latency).</p>
+
+          <h3>Engagement Update (Near-Term)</h3>
+          <p>Daily tasks, streaks, and seasonal events (e.g., New Year). Optional <strong>Lucky Wheel</strong> with fairness rules and rate limits. Element-themed UI progression (Air/Water/Earth/Fire) for a richer experience.</p>
+
+          <h3>Community Growth</h3>
+          <p>Scale users and engagement with multilingual content, moderation guidelines, and anti-spam rules. Referral verification flows. Activation/retention cohorts, A/B experiments, and creator/influencer partnerships.</p>
+
+          <h3>Wallet Application</h3>
+          <p>Dedicated wallet for secure token management: account creation/linking, backup/restore, core transfers, notifications. User-friendly key UX; modular chain/network support (final chain TBA).</p>
+
+          <h3>Wallet Testing</h3>
+          <p>Security and functionality validation: pen-testing, key-management validations, recovery scenarios; red-team drills, signature/transaction integrity, incident response, and logging policies.</p>
+
+          <h3>Token Airdrop</h3>
+          <p>Distribution to early community members and supporters with sybil/multi-account filtering, anti-bot verification, regional constraints, and <strong>KYC requirements</strong> (where applicable). Point→NC conversion is not 1:1; rules will be published transparently.</p>
+
+          <h3>Pre-Launch Readiness</h3>
+          <p>Final technical and operational prep: final tokenomics disclosure, independent audits, performance/capacity tests, store compliance reviews, consent/CMP checks, launch campaign and community coordination.</p>
+
+          <h3>Official Launch</h3>
+          <p>Platform goes live with full feature set: wallet+app integrations, boost/referral v2, notification systems, and operational monitoring. Support channels, FAQs, and appeals are ready; growth experiments and marketing plans are active.</p>
+
+          <h3>Exchange Listing — <strong>Q4 2026 (target)</strong></h3>
+          <p>Listing to improve liquidity and access. Regional eligibility checks, KYC/AML provider integrations, market-making principles, and risk management. Timelines and supported regions will be announced separately.</p>
+
+          <h3>Desktop Client (Optional R&amp;D)</h3>
+          <p>Desktop app for expanded participation across Windows/macOS/Linux aligned with the <strong>server-authoritative session model</strong>. Not heavy PoW hashing; focuses on user-friendly flows (UI, notifications, tasks). Extends security and anti-abuse policies to desktop environments.</p>
+        </section>
+
+        <div class="foot">
+          &copy; Nominal Network — Draft v0.2 — This document may change prior to listing.
         </div>
-
-        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <div class="glass rounded-3xl p-6 fade-in">
-            <div class="w-12 h-12 rounded-2xl glow-border flex items-center justify-center mb-4">
-              <i class="ri-time-line text-primary text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-extrabold mb-2">12-hour mining sessions</h3>
-            <p class="text-white/70 leading-relaxed">
-              Consistent session windows help balance rewards and reduce manipulation.
-              Timing is based on server time, not device time.
-            </p>
-          </div>
-
-          <div class="glass rounded-3xl p-6 fade-in" style="transition-delay: .05s;">
-            <div class="w-12 h-12 rounded-2xl glow-border flex items-center justify-center mb-4">
-              <i class="ri-shield-star-line text-primary text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-extrabold mb-2">Anti-abuse by design</h3>
-            <p class="text-white/70 leading-relaxed">
-              Guardrails that keep the ecosystem healthier: suspicious behavior signals,
-              rate integrity, and server-side checks.
-            </p>
-          </div>
-
-          <div class="glass rounded-3xl p-6 fade-in" style="transition-delay: .10s;">
-            <div class="w-12 h-12 rounded-2xl glow-border flex items-center justify-center mb-4">
-              <i class="ri-team-line text-primary text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-extrabold mb-2">Community progression</h3>
-            <p class="text-white/70 leading-relaxed">
-              Invite, grow, and level up. The network gets stronger as the community becomes more active and connected.
-            </p>
-          </div>
-
-          <div class="glass rounded-3xl p-6 fade-in" style="transition-delay: .15s;">
-            <div class="w-12 h-12 rounded-2xl glow-border flex items-center justify-center mb-4">
-              <i class="ri-bar-chart-2-line text-primary text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-extrabold mb-2">Simple analytics</h3>
-            <p class="text-white/70 leading-relaxed">
-              Clear stats for sessions, earnings, and milestones — designed to keep motivation high without complexity.
-            </p>
-          </div>
-
-          <div class="glass rounded-3xl p-6 fade-in" style="transition-delay: .20s;">
-            <div class="w-12 h-12 rounded-2xl glow-border flex items-center justify-center mb-4">
-              <i class="ri-lock-2-line text-primary text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-extrabold mb-2">Future-ready wallet track</h3>
-            <p class="text-white/70 leading-relaxed">
-              Roadmap includes wallet experience and testing phases focused on security and user safety.
-            </p>
-          </div>
-
-          <div class="glass rounded-3xl p-6 fade-in" style="transition-delay: .25s;">
-            <div class="w-12 h-12 rounded-2xl glow-border flex items-center justify-center mb-4">
-              <i class="ri-sparkling-line text-primary text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-extrabold mb-2">Seasonal drops & events</h3>
-            <p class="text-white/70 leading-relaxed">
-              Temporary themes (like this New Year snow) keep the experience fresh and give the community something to rally around.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Mission -->
-    <section id="mission" class="relative py-16 md:py-20">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="glass rounded-3xl p-8 md:p-12">
-          <div class="text-center fade-in">
-            <h2 class="text-3xl md:text-4xl font-black text-primary glow-text mb-4">Our Mission</h2>
-            <p class="text-white/75 max-w-4xl mx-auto leading-relaxed">
-              Build a fair digital earning system where anyone can create value through consistent participation — not privilege.
-              We focus on clarity, honest rules, and a community-first experience that rewards long-term engagement.
-            </p>
-          </div>
-
-          <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in">
-              <div class="flex items-center gap-3 mb-3">
-                <i class="ri-scales-3-line text-primary text-2xl"></i>
-                <h3 class="text-xl font-extrabold">Fairness</h3>
-              </div>
-              <p class="text-white/70 leading-relaxed">
-                Equal opportunity rules: predictable sessions, stable progression, and guardrails that help reduce exploitation.
-              </p>
-            </div>
-
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in" style="transition-delay:.05s;">
-              <div class="flex items-center gap-3 mb-3">
-                <i class="ri-eye-2-line text-primary text-2xl"></i>
-                <h3 class="text-xl font-extrabold">Transparency</h3>
-              </div>
-              <p class="text-white/70 leading-relaxed">
-                No confusing promises. Clear mechanics, visible progression, and a roadmap that evolves publicly with the community.
-              </p>
-            </div>
-
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in" style="transition-delay:.10s;">
-              <div class="flex items-center gap-3 mb-3">
-                <i class="ri-heart-2-line text-primary text-2xl"></i>
-                <h3 class="text-xl font-extrabold">Community-first</h3>
-              </div>
-              <p class="text-white/70 leading-relaxed">
-                The network grows with real people. Referrals, events, and milestones are designed to support healthy participation.
-              </p>
-            </div>
-
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in" style="transition-delay:.15s;">
-              <div class="flex items-center gap-3 mb-3">
-                <i class="ri-shield-check-line text-primary text-2xl"></i>
-                <h3 class="text-xl font-extrabold">Safety</h3>
-              </div>
-              <p class="text-white/70 leading-relaxed">
-                Server-time checks and anti-abuse measures help protect honest users and keep the economy sustainable.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Vision -->
-    <section id="vision" class="relative py-16 md:py-20">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="glass rounded-3xl p-8 md:p-12">
-          <div class="text-center fade-in">
-            <h2 class="text-3xl md:text-4xl font-black text-primary glow-text mb-4">Our Vision</h2>
-            <p class="text-white/75 max-w-4xl mx-auto leading-relaxed">
-              A world where digital value is earned through participation, creativity, and community — not gatekeepers.
-              We want to help people feel ownership over their time, attention, and progress in the digital economy.
-            </p>
-          </div>
-
-          <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-5">
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in">
-              <h3 class="text-lg font-extrabold mb-2">From passive to empowered</h3>
-              <p class="text-white/70 leading-relaxed">
-                The internet shouldn’t be a one-way extraction machine. Nominal Coin aims to turn daily engagement into visible progress.
-              </p>
-            </div>
-
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in" style="transition-delay:.05s;">
-              <h3 class="text-lg font-extrabold mb-2">Open, measurable progress</h3>
-              <p class="text-white/70 leading-relaxed">
-                Progress should feel real: sessions, milestones, and events that are easy to understand — and hard to game.
-              </p>
-            </div>
-
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in" style="transition-delay:.10s;">
-              <h3 class="text-lg font-extrabold mb-2">A community-led future</h3>
-              <p class="text-white/70 leading-relaxed">
-                We build with the community, not around it — shipping updates, listening to feedback, and improving continuously.
-              </p>
-            </div>
-          </div>
-
-          <div class="mt-8 rounded-3xl border border-line bg-black/30 p-6 text-sm text-white/65 fade-in" style="transition-delay:.12s;">
-            <div class="flex items-start gap-3">
-              <i class="ri-information-line text-primary text-xl mt-0.5"></i>
-              <p class="leading-relaxed">
-                <span class="text-white font-semibold">Note:</span> Nominal Coin is an evolving product experience.
-                This site is informational and does not constitute financial advice or a guarantee of future token value.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Roadmap -->
-    <section id="roadmap" class="relative py-16 md:py-20">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="text-center fade-in">
-          <h2 class="text-3xl md:text-4xl font-black mb-3">Roadmap</h2>
-          <p class="text-white/70 max-w-3xl mx-auto leading-relaxed">
-            A clear path from product maturity → wallet track → community distribution events → broader ecosystem expansion.
-          </p>
-        </div>
-
-        <div class="mt-10 glass rounded-3xl p-8 md:p-12">
-          <div class="timeline space-y-6">
-            <div class="tl-item fade-in">
-              <div class="tl-dot"></div>
-              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                <h3 class="text-xl font-extrabold text-primary">App Launch & Core Loop</h3>
-                <span class="chip"><i class="ri-rocket-2-line"></i> Done / Ongoing</span>
-              </div>
-              <p class="text-white/70 mt-2 leading-relaxed">
-                Stable mining sessions, progression mechanics, UI improvements, and retention-focused features.
-              </p>
-            </div>
-
-            <div class="tl-item fade-in" style="transition-delay:.05s;">
-              <div class="tl-dot"></div>
-              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                <h3 class="text-xl font-extrabold text-primary">Community Growth</h3>
-                <span class="chip"><i class="ri-community-line"></i> Active</span>
-              </div>
-              <p class="text-white/70 mt-2 leading-relaxed">
-                Social loops, seasonal events, and improved onboarding to scale globally.
-              </p>
-            </div>
-
-            <div class="tl-item fade-in" style="transition-delay:.10s;">
-              <div class="tl-dot"></div>
-              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                <h3 class="text-xl font-extrabold text-primary">Wallet App Track</h3>
-                <span class="chip"><i class="ri-wallet-3-line"></i> Planned</span>
-              </div>
-              <p class="text-white/70 mt-2 leading-relaxed">
-                Security-first wallet design, internal testing, and step-by-step rollout.
-              </p>
-            </div>
-
-            <div class="tl-item fade-in" style="transition-delay:.15s;">
-              <div class="tl-dot"></div>
-              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                <h3 class="text-xl font-extrabold text-primary">Airdrops & Distribution Events</h3>
-                <span class="chip"><i class="ri-gift-2-line"></i> Planned</span>
-              </div>
-              <p class="text-white/70 mt-2 leading-relaxed">
-                Reward early supporters with transparent rules and anti-abuse protections.
-              </p>
-            </div>
-
-            <div class="tl-item fade-in" style="transition-delay:.20s;">
-              <div class="tl-dot"></div>
-              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                <h3 class="text-xl font-extrabold text-primary">Desktop Expansion</h3>
-                <span class="chip"><i class="ri-computer-line"></i> Future</span>
-              </div>
-              <p class="text-white/70 mt-2 leading-relaxed">
-                Explore desktop CPU mining experiences and ecosystem features when the product is ready.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="relative py-16 md:py-20">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="glass rounded-3xl p-8 md:p-12">
-          <div class="text-center fade-in">
-            <h2 class="text-3xl md:text-4xl font-black mb-3">FAQ</h2>
-            <p class="text-white/70 max-w-3xl mx-auto leading-relaxed">
-              Quick answers for new users and curious community members.
-            </p>
-          </div>
-
-          <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in">
-              <h3 class="font-extrabold mb-2">Why server time?</h3>
-              <p class="text-white/70 leading-relaxed">
-                Server-authoritative timing helps reduce device clock manipulation and keeps session rules consistent for everyone.
-              </p>
-            </div>
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in" style="transition-delay:.05s;">
-              <h3 class="font-extrabold mb-2">How long is a session?</h3>
-              <p class="text-white/70 leading-relaxed">
-                Current design uses <span class="text-white font-semibold">12-hour</span> mining sessions (may evolve with updates).
-              </p>
-            </div>
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in" style="transition-delay:.10s;">
-              <h3 class="font-extrabold mb-2">Is this financial advice?</h3>
-              <p class="text-white/70 leading-relaxed">
-                No. The app is an engagement-based product experience. Nothing here is a guarantee of future value.
-              </p>
-            </div>
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 fade-in" style="transition-delay:.15s;">
-              <h3 class="font-extrabold mb-2">Where do I download?</h3>
-              <p class="text-white/70 leading-relaxed">
-                Use the Google Play button below — it opens the official app page.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Download CTA -->
-    <section id="download" class="relative py-16 md:py-24">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="glass-teal rounded-3xl p-8 md:p-12 text-center overflow-hidden relative">
-          <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[900px] h-[450px] rounded-full bg-cyan-300/10 blur-3xl"></div>
-
-          <div class="relative fade-in">
-            <h2 class="text-3xl md:text-5xl font-black leading-tight">
-              Join the community — and build the next era with us.
-            </h2>
-            <p class="mt-4 text-white/75 text-lg max-w-3xl mx-auto leading-relaxed">
-              Download Nominal Coin and start your session. This New Year theme is temporary — snow today, stronger product tomorrow.
-            </p>
-
-            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.nominalcoin.app"
-                target="_blank"
-                rel="noopener"
-                class="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-2xl cta text-black font-extrabold w-full sm:w-auto"
-              >
-                <i class="ri-google-play-fill text-xl"></i>
-                Open on Google Play
-              </a>
-              <a href="#top" class="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-2xl outline-btn font-semibold w-full sm:w-auto">
-                <i class="ri-arrow-up-line"></i>
-                Back to top
-              </a>
-            </div>
-
-            <p class="mt-6 text-xs text-white/55">
-              © <span id="year"></span> Nominal Coin. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-10">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/60">
-          <div class="flex items-center gap-2">
-            <i class="ri-snowflake-line"></i>
-            <span>Holiday theme enabled — snow overlay can be disabled via reduced motion.</span>
-          </div>
-          <div class="flex items-center gap-4">
-            <span class="inline-flex items-center gap-2"><i class="ri-shield-check-line"></i> Integrity-first</span>
-            <span class="inline-flex items-center gap-2"><i class="ri-eye-line"></i> Transparent rules</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-  </main>
-
-  <!-- Scroll reveal -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const yearEl = document.getElementById('year');
-      if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-      const items = document.querySelectorAll('.fade-in');
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) e.target.classList.add('visible');
-        });
-      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-      items.forEach(el => io.observe(el));
-
-      // Ensure top hero animates even if already visible
-      setTimeout(() => items.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.92) el.classList.add('visible');
-      }), 120);
-    });
-  </script>
-
-  <!-- Snowfall animation (canvas) -->
-  <script>
-    (function snowInit(){
-      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReduced) return;
-
-      const canvas = document.getElementById('snow');
-      const ctx = canvas.getContext('2d', { alpha: true });
-
-      let w = 0, h = 0, dpr = 1;
-      const flakes = [];
-      const FLAKE_COUNT_BASE = 140; // scales with screen size
-      let wind = 0.15;
-
-      function resize(){
-        dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-        w = canvas.clientWidth = window.innerWidth;
-        h = canvas.clientHeight = window.innerHeight;
-        canvas.width = Math.floor(w * dpr);
-        canvas.height = Math.floor(h * dpr);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-        const target = Math.round(FLAKE_COUNT_BASE * Math.min(1.6, (w*h)/(1280*720)));
-        while (flakes.length < target) flakes.push(makeFlake(true));
-        while (flakes.length > target) flakes.pop();
-      }
-
-      function rand(min, max){ return Math.random()*(max-min)+min; }
-
-      function makeFlake(randomY){
-        const size = rand(1.3, 4.2);
-        return {
-          x: rand(0, w),
-          y: randomY ? rand(0, h) : rand(-h*0.2, -10),
-          r: size,
-          vy: rand(0.7, 2.4) + size*0.08,
-          vx: rand(-0.25, 0.25),
-          a: rand(0.35, 0.95),
-          drift: rand(0.6, 1.6),
-          phase: rand(0, Math.PI*2),
-          tw: rand(0.003, 0.012) // twinkle speed
-        }
-      }
-
-      function drawFlake(f){
-        // Soft glow + crisp core (snow crystal feel)
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, f.r*1.8, 0, Math.PI*2);
-        ctx.fillStyle = `rgba(255,255,255,${0.08*f.a})`;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
-        ctx.fillStyle = `rgba(255,255,255,${0.42*f.a})`;
-        ctx.fill();
-
-        // Tiny “crystal” cross arms (subtle)
-        ctx.save();
-        ctx.translate(f.x, f.y);
-        ctx.rotate(f.phase);
-        ctx.strokeStyle = `rgba(255,255,255,${0.22*f.a})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(-f.r*1.6, 0); ctx.lineTo(f.r*1.6, 0);
-        ctx.moveTo(0, -f.r*1.6); ctx.lineTo(0, f.r*1.6);
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      let last = performance.now();
-      function tick(now){
-        const dt = Math.min(0.033, (now - last) / 1000);
-        last = now;
-
-        // Gentle wind change
-        wind += (Math.sin(now * 0.00035) * 0.002);
-        wind = Math.max(-0.28, Math.min(0.28, wind));
-
-        ctx.clearRect(0, 0, w, h);
-
-        for (let i=0; i<flakes.length; i++){
-          const f = flakes[i];
-
-          // Update
-          f.phase += 0.8 * dt;
-          const sway = Math.sin(f.phase) * f.drift;
-
-          f.y += f.vy * (1 + dt*0.5);
-          f.x += (f.vx + wind) * 20 * dt + sway * 0.18;
-
-          // Twinkle
-          f.a = Math.max(0.25, Math.min(1, f.a + Math.sin(now * f.tw) * 0.0015));
-
-          // Wrap
-          if (f.y > h + 10) {
-            flakes[i] = makeFlake(false);
-            flakes[i].x = rand(0, w);
-            continue;
-          }
-          if (f.x < -20) f.x = w + 20;
-          if (f.x > w + 20) f.x = -20;
-
-          drawFlake(f);
-        }
-
-        requestAnimationFrame(tick);
-      }
-
-      window.addEventListener('resize', resize, { passive: true });
-      resize();
-      requestAnimationFrame(tick);
-    })();
-  </script>
+      </main>
+    </div>
+  </div>
 </body>
 </html>

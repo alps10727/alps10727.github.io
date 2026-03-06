@@ -141,5 +141,5 @@ contextweb.com, 558622, RESELLER, 89ff185a4c4e857c
 rubiconproject.com, 17476, RESELLER, 0bfd66d529a55807
 indexexchange.com, 214183, RESELLER, 50b1c356f2c5c8fc
 bidmachine.io, 1412, RESELLER
-
+vungle.com, 69aabd772eb00c1bc8c25df4, DIRECT, c107d686becd2d77
 

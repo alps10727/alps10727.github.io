@@ -3,337 +3,1252 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nominal Network — White Paper (Draft v0.2)</title>
-  <meta name="description" content="Nominal Network white paper (Draft v0.2): 12-hour server-authoritative sessions, constant baseline rate, anti-abuse, points→NC plan, security & compliance." />
-  <link rel="canonical" href="https://nominalcoin.app/whitepaper/v0.2" />
-  <meta property="og:title" content="Nominal Network — White Paper (Draft v0.2)" />
-  <meta property="og:description" content="12-hour server-authoritative sessions, constant baseline, anti-abuse, points→NC plan, security & compliance." />
+  <title>Nominal Network — White Paper v1.0</title>
+  <meta name="description" content="Nominal Network white paper v1.0: Phase 1 server-authoritative mining, constant baseline rate, anti-abuse framework, NC token economy, security & compliance. Backed by Alp Digital Studio." />
+  <link rel="canonical" href="https://nominalcoin.app/whitepaper/v1.0" />
+  <meta property="og:title" content="Nominal Network — White Paper v1.0" />
+  <meta property="og:description" content="Phase 1 mobile mining, server-authoritative sessions, NC token economy, backed by Alp Digital Studio." />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://nominalcoin.app/whitepaper/v0.2" />
+  <meta property="og:url" content="https://nominalcoin.app/whitepaper/v1.0" />
   <meta name="theme-color" content="#0fb9b1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
-    :root{
-      --bg:#0b0d10;
-      --panel:#11151a;
-      --text:#e8eef5;
-      --muted:#a9b6c4;
-      --brand:#0fb9b1;
-      --accent:#6c5ce7;
-      --ok:#2ecc71;
-      --warn:#f1c40f;
-      --bad:#e74c3c;
-      --code:#0a0e13;
-      --border:#1d232c;
+    :root {
+      --bg: #080b0f;
+      --panel: #0e1318;
+      --panel2: #121820;
+      --text: #dde6f0;
+      --muted: #8fa3b8;
+      --brand: #0fb9b1;
+      --brand2: #09d4ca;
+      --accent: #5f4de8;
+      --accent2: #8b7cf7;
+      --ok: #22c55e;
+      --warn: #eab308;
+      --bad: #ef4444;
+      --gold: #f0a500;
+      --border: #1a2130;
+      --border2: #222d3d;
+      --code: #080c10;
+      --glow: rgba(15,185,177,0.15);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      color:var(--text); background:linear-gradient(180deg, #0b0d10 0%, #0c1218 100%);
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-weight: 400;
+      font-size: 15.5px;
+      line-height: 1.72;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      background-image:
+        radial-gradient(ellipse 800px 500px at 10% -10%, rgba(15,185,177,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 600px 400px at 90% 5%, rgba(95,77,232,0.07) 0%, transparent 60%);
+      background-attachment: fixed;
     }
-    .wrap{max-width:1100px; margin:0 auto; padding:32px 20px 80px}
-    header{
-      position:sticky; top:0; z-index:20; backdrop-filter:saturate(120%) blur(8px);
-      background:linear-gradient(180deg, rgba(11,13,16,.85), rgba(11,13,16,.65)); border-bottom:1px solid var(--border);
+
+    /* ─── HEADER ─── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: saturate(160%) blur(12px);
+      -webkit-backdrop-filter: saturate(160%) blur(12px);
+      background: rgba(8,11,15,0.82);
+      border-bottom: 1px solid var(--border2);
     }
-    header .bar{max-width:1100px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:16px}
-    .badge{display:inline-block; padding:4px 10px; border-radius:999px; font-weight:600; font-size:12px; letter-spacing:.3px; background:rgba(15,185,177,.12); color:#8ff5f0; border:1px solid rgba(15,185,177,.35)}
-    .title{font-size:18px; font-weight:700}
-    .version{margin-left:auto; font-size:13px; color:var(--muted)}
-    .hero{margin-top:24px; background:radial-gradient(600px 220px at 20% -30%, rgba(15,185,177,.18), transparent 70%), radial-gradient(500px 200px at 90% -40%, rgba(108,92,231,.12), transparent 70%); border:1px solid var(--border); border-radius:16px; padding:28px}
-    h1{margin:0 0 6px; font-size:28px}
-    .sub{color:var(--muted)}
-    .grid{display:grid; grid-template-columns:280px 1fr; gap:28px; margin-top:24px}
-    nav{position:sticky; top:72px; align-self:start; background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px}
-    nav strong{display:block; font-size:13px; color:var(--muted); margin-bottom:10px}
-    nav a{display:block; color:var(--text); text-decoration:none; padding:6px 8px; border-radius:8px; font-size:14px; opacity:.9}
-    nav a:hover{background:#0c131a}
-    nav .sec{margin-top:8px}
-    section{background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:22px 22px; margin-bottom:18px}
-    h2{margin:0 0 8px; font-size:22px}
-    h3{margin:16px 0 6px; font-size:18px}
-    p{margin:8px 0}
-    ul,ol{margin:8px 0 8px 18px}
-    li{margin:6px 0}
-    code, pre{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
-    pre{background:var(--code); border:1px solid var(--border); border-radius:12px; padding:14px; overflow:auto}
-    .note{border-left:3px solid var(--brand); padding-left:12px; color:var(--muted)}
-    .list-bad{color:#ffb3a7}
-    .kv{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
-    .kv span{background:rgba(255,255,255,.04); border:1px solid var(--border); padding:6px 10px; border-radius:999px; font-size:13px}
-    .foot{margin-top:26px; color:var(--muted); font-size:13px; text-align:center}
-    @media (max-width: 980px){
-      .grid{grid-template-columns:1fr}
-      nav{position:relative; top:auto}
+    header .bar {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 13px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
-    @media print{
-      body{background:#fff; color:#111}
-      header, nav{display:none}
-      section{page-break-inside:avoid; border:none}
-      a{color:#000}
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--brand), var(--accent));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
+      letter-spacing: -0.5px;
+      flex-shrink: 0;
+    }
+    .header-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.2px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      background: rgba(15,185,177,0.10);
+      color: var(--brand2);
+      border: 1px solid rgba(15,185,177,0.28);
+    }
+    .badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--brand);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .version {
+      margin-left: auto;
+      font-size: 12.5px;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ─── LAYOUT ─── */
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 36px 24px 100px; }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin-top: 28px;
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 44px 44px 40px;
+      background: var(--panel);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(700px 300px at 0% -30%, rgba(15,185,177,0.13), transparent 65%),
+        radial-gradient(500px 250px at 100% -20%, rgba(95,77,232,0.10), transparent 65%);
+      pointer-events: none;
+    }
+    .hero-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: 12px;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(30px, 5vw, 46px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 0 0 10px;
+      letter-spacing: -1px;
+      background: linear-gradient(120deg, #e8f4ff 0%, var(--brand2) 55%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 24px;
+      line-height: 1.65;
+    }
+    .hero-mission {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 18px 22px;
+      margin-bottom: 22px;
+    }
+    .hero-mission strong {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--brand);
+      display: block;
+      margin-bottom: 5px;
+    }
+    .hero-mission p { margin: 0; font-size: 14.5px; color: var(--muted); }
+    .kv {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .kv span {
+      background: rgba(15,185,177,0.07);
+      border: 1px solid rgba(15,185,177,0.2);
+      padding: 5px 13px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      color: var(--brand2);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+    }
+    .kv span.acc {
+      background: rgba(95,77,232,0.08);
+      border-color: rgba(95,77,232,0.25);
+      color: var(--accent2);
+    }
+
+    /* ─── GRID ─── */
+    .grid {
+      display: grid;
+      grid-template-columns: 264px 1fr;
+      gap: 28px;
+      margin-top: 28px;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      background: var(--panel);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      padding: 18px 14px;
+    }
+    nav strong {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+    nav a {
+      display: block;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 9px;
+      font-size: 13.5px;
+      transition: color 0.15s, background 0.15s;
+      line-height: 1.4;
+    }
+    nav a:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+    nav .nav-new {
+      color: var(--brand);
+      font-weight: 500;
+    }
+    nav .nav-new::after {
+      content: 'NEW';
+      margin-left: 6px;
+      font-size: 9px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      background: rgba(15,185,177,0.15);
+      color: var(--brand);
+      border-radius: 4px;
+      padding: 1px 5px;
+      vertical-align: middle;
+    }
+    nav hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+
+    /* ─── SECTIONS ─── */
+    section {
+      background: var(--panel);
+      border: 1px solid var(--border2);
+      border-radius: 18px;
+      padding: 28px 30px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(15,185,177,0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    section:hover::before { opacity: 1; }
+
+    .section-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: 6px;
+    }
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0 0 16px;
+      letter-spacing: -0.4px;
+      color: var(--text);
+    }
+    h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 15.5px;
+      font-weight: 700;
+      margin: 24px 0 8px;
+      color: var(--text);
+      letter-spacing: -0.2px;
+    }
+    p { margin: 8px 0; }
+    ul, ol { margin: 8px 0 8px 20px; padding: 0; }
+    li { margin: 7px 0; }
+    strong { color: var(--text); font-weight: 500; }
+
+    /* ─── CALLOUTS ─── */
+    .note {
+      border-left: 3px solid var(--brand);
+      padding: 10px 14px;
+      color: var(--muted);
+      background: rgba(15,185,177,0.05);
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      margin: 14px 0;
+    }
+    .note strong { color: var(--brand2); }
+    .callout-gold {
+      border-left: 3px solid var(--gold);
+      padding: 10px 14px;
+      color: var(--muted);
+      background: rgba(240,165,0,0.06);
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      margin: 14px 0;
+    }
+    .callout-gold strong { color: var(--gold); }
+    .callout-accent {
+      border-left: 3px solid var(--accent2);
+      padding: 10px 14px;
+      color: var(--muted);
+      background: rgba(95,77,232,0.07);
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      margin: 14px 0;
+    }
+    .callout-accent strong { color: var(--accent2); }
+
+    /* ─── LIST STYLES ─── */
+    .list-bad { color: #fca5a5; }
+    .list-bad li::marker { color: var(--bad); }
+    .list-ok li::marker { color: var(--ok); }
+
+    /* ─── TABLES & GRIDS ─── */
+    .dist-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .dist-item {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .dist-bar {
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand), var(--accent2));
+      border-radius: 2px;
+      margin-top: 5px;
+    }
+    .dist-label { font-size: 13px; color: var(--muted); }
+    .dist-val { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--brand2); }
+
+    /* ─── PHASE BADGE ─── */
+    .phase-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(15,185,177,0.1);
+      border: 1px solid rgba(15,185,177,0.3);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--brand2);
+      margin-bottom: 16px;
+    }
+    .phase-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--ok);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--ok);
+      animation: pulse 2s infinite;
+    }
+
+    /* ─── GUARANTEE SECTION SPECIAL ─── */
+    .guarantee-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .g-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .g-card .g-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .g-card strong {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    .g-card p { margin: 0; font-size: 13.5px; color: var(--muted); }
+
+    /* ─── ENFORCEMENT TABLE ─── */
+    .enforcement-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 14px;
+    }
+    .enforcement-table th {
+      text-align: left;
+      padding: 9px 12px;
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-family: 'Syne', sans-serif;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border2);
+    }
+    .enforcement-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      vertical-align: top;
+    }
+    .enforcement-table td:first-child { color: var(--text); font-weight: 500; }
+    .enforcement-table tr:last-child td { border-bottom: none; }
+
+    /* ─── ROADMAP ─── */
+    .roadmap-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .roadmap-item:last-child { border-bottom: none; }
+    .rm-dot {
+      flex-shrink: 0;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--brand);
+      margin-top: 7px;
+      box-shadow: 0 0 8px var(--glow);
+    }
+    .rm-dot.done { background: var(--ok); box-shadow: 0 0 8px rgba(34,197,94,0.3); }
+    .rm-dot.future { background: var(--border2); box-shadow: none; }
+    .rm-content { flex: 1; }
+    .rm-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .rm-status {
+      display: inline-block;
+      font-size: 11px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 5px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .rm-status.live { background: rgba(34,197,94,0.12); color: var(--ok); }
+    .rm-status.soon { background: rgba(15,185,177,0.10); color: var(--brand2); }
+    .rm-status.planned { background: rgba(255,255,255,0.05); color: var(--muted); }
+    .rm-desc { font-size: 13.5px; color: var(--muted); }
+
+    /* ─── ADS STUDIO SECTION ─── */
+    .studio-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .studio-logo {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .studio-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--text);
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+    .studio-tagline { font-size: 13px; color: var(--muted); }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .service-item {
+      background: rgba(95,77,232,0.06);
+      border: 1px solid rgba(95,77,232,0.2);
+      border-radius: 10px;
+      padding: 13px 15px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .service-item strong {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--accent2);
+      margin-bottom: 3px;
+    }
+
+    /* ─── DISTRIBUTION SECTION ─── */
+    .user-type {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin: 12px 0;
+    }
+    .user-type-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .user-type-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .ut-good { background: rgba(34,197,94,0.12); }
+    .ut-bad { background: rgba(239,68,68,0.12); }
+    .user-type-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    /* ─── FOOTER ─── */
+    .foot {
+      margin-top: 40px;
+      padding: 24px;
+      background: var(--panel);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      text-align: center;
+    }
+    .foot-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .foot p {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 4px 0;
+    }
+    .foot .copyright {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: #4a5568;
+    }
+
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    pre {
+      background: var(--code);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      overflow: auto;
+      font-size: 13.5px;
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+      nav { position: relative; top: auto; }
+      .guarantee-box, .dist-grid, .service-grid { grid-template-columns: 1fr; }
+      .hero { padding: 28px 22px; }
+      section { padding: 22px 20px; }
+    }
+
+    @media print {
+      body { background: #fff; color: #111; }
+      header, nav { display: none; }
+      section { page-break-inside: avoid; border: 1px solid #ddd; }
+      a { color: #000; }
     }
   </style>
 </head>
 <body>
+
   <header>
     <div class="bar">
-      <span class="badge">DRAFT</span>
-      <div class="title">Nominal Network — White Paper</div>
-      <div class="version">v0.2 · Last updated: 2025-12-24</div>
+      <div class="logo-mark">N</div>
+      <div class="header-title">Nominal Network — White Paper</div>
+      <span class="badge">v1.0 Official</span>
+      <div class="version">Last updated: April 2026</div>
     </div>
   </header>
 
   <div class="wrap">
+
+    <!-- HERO -->
     <div class="hero">
-      <h1>Vision</h1>
-      <p>Nominal Network removes hardware and know-how barriers with an <strong>accessible</strong>, <strong>phone-friendly</strong>, and <strong>fair</strong> earning experience. We rely on a <strong>server-authoritative session model</strong>, grow with multilingual communities, and uphold security, privacy, and compliance.</p>
-      <h3>Mission</h3>
-      <p>Operate a <strong>community-centric</strong> network where users start <strong>12-hour sessions</strong> with one tap, sustained by a constant baseline rate and strict anti-abuse rules. Keep participation simple and fast while building a durable product, seasonal events, and a transparent reward ecosystem.</p>
-      <p class="note"><strong>Draft Notice:</strong> This document is preliminary and subject to change before listing and regulatory reviews. Nothing herein is investment advice. Nominal Network makes <strong>no income guarantees</strong>.</p>
+      <div class="hero-label">Nominal Network · Official White Paper</div>
+      <h1>Accessible Mining.<br/>Community-First.</h1>
+      <p class="hero-sub">Nominal Network eliminates hardware barriers with a phone-friendly, server-authoritative earning experience. Built for everyone — no rigs, no expertise required. Just one tap.</p>
+
+      <div class="hero-mission">
+        <strong>Mission</strong>
+        <p>Operate a community-centric network where users start 12-hour sessions with one tap, sustained by a constant baseline rate, strict anti-abuse policies, and a transparent reward ecosystem — backed by <strong style="color:var(--accent2)">Alp Digital Studio</strong>.</p>
+      </div>
+
       <div class="kv">
-        <span>Server-authoritative</span>
-        <span>12-hour sessions</span>
-        <span>Constant baseline</span>
-        <span>Anti-abuse first</span>
-        <span>Privacy & compliance</span>
+        <span>Phase 1 · Live</span>
+        <span>Server-Authoritative</span>
+        <span>12-Hour Sessions</span>
+        <span>Constant Baseline Rate</span>
+        <span class="acc">Anti-Abuse First</span>
+        <span class="acc">Alp Digital Studio</span>
+        <span class="acc">Exchange Negotiations Active</span>
       </div>
     </div>
 
     <div class="grid">
+
+      <!-- NAV -->
       <nav>
         <strong>Contents</strong>
-        <a href="#abstract">1) Abstract</a>
-        <a href="#problem">2) Problem & Value</a>
-        <a class="sec" href="#product">3) Product</a>
-        <a class="sec" href="#economy">4) Economy & Token</a>
-        <a class="sec" href="#tech">5) Tech Stack</a>
-        <a class="sec" href="#security">6) Security & Privacy</a>
-        <a class="sec" href="#fairness">7) Fairness & Anti-Abuse</a>
-        <a class="sec" href="#community">8) Community</a>
-        <a class="sec" href="#compliance">9) Compliance</a>
-        <a class="sec" href="#risk">10) Risk</a>
-        <a class="sec" href="#faq">11) FAQ</a>
-        <a class="sec" href="#roadmap">Roadmap (Draft)</a>
+        <a href="#abstract">1 · Abstract</a>
+        <a href="#problem">2 · Problem &amp; Value</a>
+        <a href="#product">3 · Product</a>
+        <a href="#economy">4 · Economy &amp; Token</a>
+        <a href="#tech">5 · Tech Stack</a>
+        <a href="#security">6 · Security &amp; Privacy</a>
+        <a href="#fairness">7 · Fairness &amp; Anti-Abuse</a>
+        <a href="#community">8 · Community</a>
+        <a href="#compliance">9 · Compliance</a>
+        <a href="#risk">10 · Risk Disclosure</a>
+        <a href="#faq">11 · FAQ</a>
+        <a href="#roadmap">12 · Roadmap</a>
+        <hr />
+        <a href="#guarantee" class="nav-new">13 · Guarantee &amp; Legitimacy</a>
+        <a href="#alp" class="nav-new">14 · Alp Digital Studio</a>
+        <a href="#listing" class="nav-new">15 · Listing &amp; Conversion</a>
+        <a href="#userclasses" class="nav-new">16 · User Classes &amp; Sanctions</a>
+        <a href="#distribution" class="nav-new">17 · NC Distribution</a>
       </nav>
 
       <main>
+
+        <!-- 1. ABSTRACT -->
         <section id="abstract">
-          <h2>1) Abstract</h2>
-          <p>Nominal Network is a mobile-first earning system where users start <strong>12-hour sessions</strong> with one button. <strong>Referral</strong> and <strong>in-app boosts</strong> can increase the effective rate. No expensive rigs are required; any modern smartphone can participate. The experience is multilingual, device-light, and governed by server time.</p>
-          <ul>
-            <li><strong>User-friendly:</strong> Simple flows, multilingual UI.</li>
-            <li><strong>Constant baseline:</strong> We do not plan to reduce the baseline rate after listing.</li>
-            <li><strong>Engagement loops:</strong> Daily tasks, streaks, and seasonal events designed for retention (no financial promises).</li>
-            <li><strong>Device-light:</strong> Server validates sessions; device handles UI and notifications.</li>
-            <li><strong>Security-minded:</strong> Encrypted transport, strict rules, and anti-abuse controls.</li>
+          <div class="section-num">Section 01</div>
+          <h2>Abstract</h2>
+          <p>Nominal Network is a mobile-first earning system where any user with a modern smartphone can participate in a structured, server-validated mining session simply by tapping a button. <strong>Referrals</strong> and <strong>in-app boosts</strong> can increase effective accrual rates. The platform is multilingual, device-light, and fully governed by server-side logic.</p>
+          <ul class="list-ok">
+            <li><strong>User-friendly:</strong> Clean, simple flows with multilingual UI support across all major languages.</li>
+            <li><strong>Stable baseline:</strong> The baseline accrual rate is not planned to decrease following listing.</li>
+            <li><strong>Engagement-driven:</strong> Daily tasks, streaks, and seasonal events reward consistent participation — not promises.</li>
+            <li><strong>Device-light:</strong> The server validates all session data; the device only handles the UI and notifications.</li>
+            <li><strong>Security-first:</strong> TLS-encrypted transport, strict rule enforcement, and comprehensive anti-abuse infrastructure.</li>
           </ul>
-          <p class="note"><strong>Terminology:</strong> “Cloud mining” here does <em>not</em> mean renting PoW/PoS hash power. We use a server-authoritative session model that mints <strong>off-chain points</strong> which may later convert to <strong>NC</strong> under announced rules.</p>
+          <p class="note"><strong>Terminology Note:</strong> "Cloud mining" in this context does <em>not</em> refer to renting PoW or PoS hash power. Nominal Network uses a server-authoritative session model that accrues <strong>off-chain points</strong>, which may convert to <strong>NC tokens</strong> under rules published prior to conversion windows.</p>
         </section>
 
+        <!-- 2. PROBLEM -->
         <section id="problem">
-          <h2>2) Problem & Value Proposition</h2>
-          <p><strong>Problem.</strong> Traditional crypto mining demands high CAPEX, complex setup, and power usage—limiting access.</p>
-          <p><strong>Value.</strong> Single-tap sessions accrue <strong>off-chain points</strong> at a stable baseline rate, optionally augmented by referrals, boosts, and engagement rewards. The device is not taxed; server logic enforces timing, settlement, and fairness.</p>
+          <div class="section-num">Section 02</div>
+          <h2>Problem &amp; Value Proposition</h2>
+          <p><strong>The Problem.</strong> Conventional crypto mining requires significant capital expenditure, complex hardware configuration, and continuous energy consumption. These barriers effectively exclude the vast majority of global internet users from participating in digital economies.</p>
+          <p><strong>Our Solution.</strong> Nominal Network replaces capital and expertise requirements with a single tap. Sessions accrue off-chain points at a stable baseline rate, optionally augmented by referrals, boosts, and engagement rewards. No device is taxed; server logic handles all timing, settlement, and fairness enforcement.</p>
+          <p><strong>The Outcome.</strong> A fair, inclusive, and growing community of participants who earn through genuine engagement — not hardware advantage.</p>
         </section>
 
+        <!-- 3. PRODUCT -->
         <section id="product">
-          <h2>3) Product: Flow & Mechanics</h2>
+          <div class="section-num">Section 03</div>
+          <h2>Product: Flow &amp; Mechanics</h2>
 
-          <h3>3.1 Basic Flow (Server-Authoritative)</h3>
+          <h3>3.1 · Session Flow (Server-Authoritative)</h3>
           <ol>
-            <li><strong>Start:</strong> User taps Start Mining.</li>
-            <li><strong>Session:</strong> Server records a <strong>12-hour</strong> session start timestamp.</li>
-            <li><strong>Accrual:</strong> Points accrue under server rules (device clock is not trusted).</li>
-            <li><strong>Settlement:</strong> At completion, server atomically adds earned points. (No duplicate claims.)</li>
-            <li><strong>Notification:</strong> Optional reminders to restart.</li>
+            <li><strong>Initiation:</strong> User taps <em>Start Mining</em> in the application.</li>
+            <li><strong>Session Record:</strong> The server records a verified 12-hour session start timestamp.</li>
+            <li><strong>Accrual:</strong> Points accumulate under server-enforced rules. Device clocks are never trusted.</li>
+            <li><strong>Settlement:</strong> Upon completion, the server atomically credits earned points — duplicate claims are structurally prevented.</li>
+            <li><strong>Re-engagement:</strong> Optional push notifications prompt users to restart their next session.</li>
           </ol>
 
-          <h3>3.2 Session Integrity</h3>
+          <h3>3.2 · Session Integrity</h3>
           <ul>
-            <li><strong>Server time:</strong> Session duration and eligibility are validated on the backend.</li>
-            <li><strong>Idempotency:</strong> Settlement is designed to be safe against repeated taps/retries.</li>
-            <li><strong>No heavy mining:</strong> The app does not perform PoW hashing; it is participation-based.</li>
+            <li><strong>Server time authority:</strong> All session durations and eligibility windows are validated exclusively on the backend.</li>
+            <li><strong>Idempotent settlement:</strong> Settlement operations are designed to be replay-safe against repeated requests.</li>
+            <li><strong>No computational load:</strong> The app performs zero PoW hashing. Participation is session-based, not compute-based.</li>
           </ul>
 
-          <h3>3.3 Rate Model</h3>
+          <h3>3.3 · Rate Model</h3>
           <ul>
-            <li><strong>Constant baseline</strong> for all users; no planned reduction post-listing.</li>
-            <li><strong>Boosts</strong> as time-bounded multipliers (limited, monitored, and abuse-protected).</li>
-            <li><strong>Referrals</strong> with anti-spam safeguards and quality checks.</li>
+            <li><strong>Constant baseline</strong> applies equally to all users with no planned reduction after listing.</li>
+            <li><strong>Time-bounded boosts</strong> function as rate multipliers; they are limited, monitored, and abuse-protected.</li>
+            <li><strong>Referral rewards</strong> are governed by anti-spam safeguards and quality-signal verification.</li>
           </ul>
 
-          <h3>3.4 Progression & Experience (Retention Without Promises)</h3>
+          <h3>3.4 · Progression &amp; Engagement</h3>
           <ul>
-            <li><strong>Element progression:</strong> Air → Water → Earth → Fire themes and visual upgrades tied to level/activity.</li>
-            <li><strong>Daily tasks & streaks:</strong> Simple goals that reward consistent participation.</li>
-            <li><strong>Seasonal events:</strong> Limited-time events (e.g., New Year) with cosmetic rewards and community missions.</li>
-            <li><strong>Lucky Wheel (optional):</strong> A chance-based in-app feature for engagement rewards; rate limits and fairness rules apply.</li>
+            <li><strong>Elemental progression:</strong> Air → Water → Earth → Fire — visual themes and upgrades tied to activity level.</li>
+            <li><strong>Daily tasks &amp; streaks:</strong> Consistent participation is recognized and rewarded.</li>
+            <li><strong>Seasonal events:</strong> Limited-time community events (e.g., holidays, milestones) with cosmetic and participation rewards.</li>
+            <li><strong>Lucky Wheel:</strong> An optional chance-based engagement feature; rate-limited and subject to fairness rules.</li>
           </ul>
 
-          <h3>3.5 Device Impact</h3>
+          <h3>3.5 · Device Impact</h3>
           <ul>
-            <li>No heavy CPU/GPU workloads.</li>
-            <li>Battery-friendly UI; backend controls session correctness.</li>
+            <li>Zero CPU or GPU workload on the device.</li>
+            <li>Battery-optimized UI; all session correctness is enforced by the backend.</li>
           </ul>
         </section>
 
+        <!-- 4. ECONOMY -->
         <section id="economy">
-          <h2>4) Economy & Token Design (Draft)</h2>
+          <div class="section-num">Section 04</div>
+          <h2>Economy &amp; Token Design</h2>
 
-          <h3>4.1 Unit & Positioning</h3>
-          <p>Today’s earnings are <strong>off-chain points</strong>. The <strong>NC token</strong> is planned; conversion rules and timing will be announced.</p>
+          <h3>4.1 · Current State &amp; Token Plan</h3>
+          <p>All earnings accumulated today are <strong>off-chain points</strong>. The <strong>NC token</strong> is in development; full conversion rules, timelines, and eligibility criteria will be published in advance of any conversion window.</p>
 
-          <h3>4.2 Total Supply (Draft)</h3>
-          <p><strong>Total supply:</strong> <strong>2.5 billion NC</strong>.</p>
+          <h3>4.2 · Total Supply</h3>
+          <p style="font-size:28px; font-family:'Syne',sans-serif; font-weight:800; color:var(--brand2); margin:10px 0;">2,500,000,000 NC</p>
+          <p style="color:var(--muted); font-size:13.5px; margin-top:0;">Fixed maximum supply of 2.5 billion NC tokens.</p>
 
-          <h3>4.3 Distribution Ranges (Draft)</h3>
+          <h3>4.3 · Distribution Ranges</h3>
+          <div class="dist-grid">
+            <div class="dist-item">
+              <div>
+                <div class="dist-val">50–60%</div>
+                <div class="dist-label">Community Mining &amp; Rewards</div>
+                <div class="dist-bar" style="width:100%"></div>
+              </div>
+            </div>
+            <div class="dist-item">
+              <div>
+                <div class="dist-val">10–20%</div>
+                <div class="dist-label">Ecosystem &amp; Developer Incentives</div>
+                <div class="dist-bar" style="width:70%"></div>
+              </div>
+            </div>
+            <div class="dist-item">
+              <div>
+                <div class="dist-val">8–12%</div>
+                <div class="dist-label">Team &amp; Advisors (Vesting)</div>
+                <div class="dist-bar" style="width:40%"></div>
+              </div>
+            </div>
+            <div class="dist-item">
+              <div>
+                <div class="dist-val">5–10%</div>
+                <div class="dist-label">Liquidity &amp; Exchange Partnerships</div>
+                <div class="dist-bar" style="width:32%"></div>
+              </div>
+            </div>
+            <div class="dist-item">
+              <div>
+                <div class="dist-val">5–10%</div>
+                <div class="dist-label">Marketing &amp; Growth</div>
+                <div class="dist-bar" style="width:32%"></div>
+              </div>
+            </div>
+            <div class="dist-item">
+              <div>
+                <div class="dist-val">3–7%</div>
+                <div class="dist-label">Reserve &amp; Treasury</div>
+                <div class="dist-bar" style="width:22%"></div>
+              </div>
+            </div>
+          </div>
+
+          <p class="note"><strong>No 1:1 conversion guarantee.</strong> The points-to-NC conversion ratio will be determined proportionally, accounting for pool allocation, participation duration, activity quality signals, anti-abuse filtering, and total supply constraints.</p>
+
+          <h3>4.4 · Fair Allocation Principles</h3>
           <ul>
-            <li>Community Mining & Rewards: <strong>50–60%</strong></li>
-            <li>Ecosystem & Developer Incentives: <strong>10–20%</strong></li>
-            <li>Team & Advisors (Vesting): <strong>8–12%</strong></li>
-            <li>Liquidity & Exchange Partnerships: <strong>5–10%</strong></li>
-            <li>Marketing & Growth: <strong>5–10%</strong></li>
-            <li>Reserve & Treasury: <strong>3–7%</strong></li>
+            <li><strong>Sybil resistance:</strong> Multi-account attempts are detected, filtered, and invalidated.</li>
+            <li><strong>Quality signals:</strong> Authentic participation, consistent retention, and verified actions may positively influence allocation weighting.</li>
+            <li><strong>Full transparency:</strong> Final allocation rules will be published before any conversion window opens.</li>
           </ul>
 
-          <p class="note"><strong>No 1:1 guarantee:</strong> Conversion may be proportional, considering pool allocation, participation duration, activity signals, anti-abuse cleans, and supply constraints.</p>
-
-          <h3>4.4 Fair Allocation Principles (Draft)</h3>
+          <h3>4.5 · Monetization</h3>
           <ul>
-            <li><strong>Sybil resistance:</strong> Multi-account attempts can be filtered and invalidated.</li>
-            <li><strong>Quality signals:</strong> Legit participation, retention, and verified actions may influence allocation.</li>
-            <li><strong>Transparency:</strong> Final rules will be published before conversion windows.</li>
-          </ul>
-
-          <h3>4.5 Monetization</h3>
-          <ul>
-            <li>Ads and partnerships may support the ecosystem.</li>
-            <li>Optional boosts/cosmetics enhance experience—not a financial promise.</li>
+            <li>Advertising partnerships and ecosystem integrations may support platform operations.</li>
+            <li>Optional boosts and cosmetics enhance user experience and are not financial instruments.</li>
           </ul>
         </section>
 
+        <!-- 5. TECH -->
         <section id="tech">
-          <h2>5) Tech Stack & Architecture</h2>
+          <div class="section-num">Section 05</div>
+          <h2>Tech Stack &amp; Architecture</h2>
           <ul>
-            <li><strong>Client (Flutter/Dart):</strong> i18n, theming, low memory footprint, performance profiling.</li>
-            <li><strong>Backend (GCP/Firebase):</strong> Functions Gen2, Firestore (server timestamps, TTL), Cloud Tasks/Pub/Sub, Remote Config, FCM.</li>
-            <li><strong>Ads & Verification:</strong> AdMob (rewarded/interstitial/banner), optional SSV plan with signatures.</li>
-            <li><strong>Security:</strong> App Check, Play Integrity/DeviceCheck, rate limiting, IP/device fingerprinting, anomaly detection.</li>
-            <li><strong>Observability:</strong> Logging, Error Reporting, custom metrics, BigQuery exports; alerting.</li>
-            <li><strong>CI/CD:</strong> GitHub Actions, staged channels (internal/closed/beta/prod), controlled rollouts.</li>
-            <li><strong>Privacy & Compliance:</strong> TLS, data minimization, consent flows and CMP (where required).</li>
+            <li><strong>Client (Flutter/Dart):</strong> Full internationalization (i18n), adaptive theming, minimal memory footprint, and integrated performance profiling.</li>
+            <li><strong>Backend (GCP/Firebase):</strong> Cloud Functions Gen2, Firestore with server timestamps and TTL, Cloud Tasks/Pub/Sub, Remote Config, and Firebase Cloud Messaging (FCM).</li>
+            <li><strong>Ad Integration:</strong> AdMob (rewarded, interstitial, banner formats) with optional server-side verification (SSV) via signed callbacks.</li>
+            <li><strong>Security Layer:</strong> Firebase App Check, Google Play Integrity / Apple DeviceCheck, IP-level rate limiting, device fingerprinting, and behavioral anomaly detection.</li>
+            <li><strong>Observability:</strong> Centralized logging, Cloud Error Reporting, custom business metrics, BigQuery exports, and proactive alerting.</li>
+            <li><strong>CI/CD:</strong> GitHub Actions pipelines with staged release channels (internal → closed beta → open beta → production) and controlled rollouts.</li>
+            <li><strong>Privacy &amp; Compliance:</strong> TLS throughout, data minimization principles, consent management platforms (CMP) where required by regulation.</li>
           </ul>
 
-          <h3>5.1 Anti-Abuse Engineering (Draft)</h3>
+          <h3>5.1 · Anti-Abuse Engineering</h3>
           <ul>
-            <li><strong>Server-side rules:</strong> Session validation, idempotent settlement, replay protection.</li>
-            <li><strong>Risk scoring:</strong> Device integrity signals, anomaly patterns, referral graph checks.</li>
-            <li><strong>Progressive enforcement:</strong> Warnings → cooldowns → suspensions → bans (with appeal path).</li>
+            <li><strong>Server-side validation:</strong> Every session start, accrual event, and settlement is validated server-side with replay protection.</li>
+            <li><strong>Risk scoring engine:</strong> Device integrity signals, behavioral anomaly patterns, and referral graph topology are evaluated in real time.</li>
+            <li><strong>Progressive enforcement:</strong> Warnings → Rate limiting → Cooldowns → Suspension → Permanent ban, with a documented appeal pathway at each stage.</li>
           </ul>
         </section>
 
+        <!-- 6. SECURITY -->
         <section id="security">
-          <h2>6) Security, Privacy & Encryption</h2>
+          <div class="section-num">Section 06</div>
+          <h2>Security, Privacy &amp; Encryption</h2>
           <ul>
-            <li><strong>Transport:</strong> TLS-encrypted traffic.</li>
-            <li><strong>Access control:</strong> Firestore rules + function validation.</li>
-            <li><strong>Data minimization:</strong> Only what’s necessary; GDPR/KVKK principles.</li>
-            <li><strong>Incident handling:</strong> Freeze/suspend on abuse; appeal process with auditable logs.</li>
+            <li><strong>Transport security:</strong> All client-server communication is TLS-encrypted. No plaintext transmission of any data.</li>
+            <li><strong>Access control:</strong> Firestore security rules combined with server-side function validation enforce least-privilege access at every layer.</li>
+            <li><strong>Data minimization:</strong> Only data strictly necessary for platform operation is collected and retained, in accordance with GDPR and KVKK principles.</li>
+            <li><strong>Incident response:</strong> Compromised or abusive accounts are frozen or suspended immediately; all enforcement actions are logged to auditable records with an appeal process.</li>
           </ul>
         </section>
 
+        <!-- 7. FAIRNESS -->
         <section id="fairness">
-          <h2>7) Fairness, Anti-Abuse & Single-Account Policy</h2>
+          <div class="section-num">Section 07</div>
+          <h2>Fairness, Anti-Abuse &amp; Single-Account Policy</h2>
           <ul>
-            <li><strong>1 Person = 1 Account.</strong> Multi-accounting is prohibited.</li>
-            <li><strong>Device/session validation:</strong> Fingerprints, IP/DNS patterns, anomaly scoring.</li>
-            <li><strong>Automation/emulator controls:</strong> Root/emulator checks; rapid-tap patterns flagged.</li>
-            <li><strong>Referral anti-spam:</strong> Self-referrals, loops, and farms nullified.</li>
-            <li><strong>Sanctions:</strong> Warnings → temporary suspension → permanent bans; invalidation for abuse-gained balances.</li>
+            <li><strong>1 Person = 1 Account.</strong> Operating multiple accounts is strictly prohibited and subject to enforcement.</li>
+            <li><strong>Device &amp; session validation:</strong> Device fingerprints, IP/DNS patterns, and behavioral anomaly scoring are applied continuously.</li>
+            <li><strong>Automation controls:</strong> Root access, emulator environments, and bot-pattern interactions are flagged and actioned.</li>
+            <li><strong>Referral integrity:</strong> Self-referrals, referral loops, and organized referral farms are detected and nullified.</li>
+            <li><strong>Graduated sanctions:</strong> Warning → Temporary suspension → Permanent ban; balances obtained via abuse are subject to partial or full invalidation.</li>
           </ul>
-          <p class="note">Fairness is enforced to protect real users. Enforcement actions may reduce or invalidate balances obtained through abuse.</p>
+          <p class="note">All fairness enforcement mechanisms exist to protect genuine users. Platform integrity benefits every honest participant.</p>
         </section>
 
+        <!-- 8. COMMUNITY -->
         <section id="community">
-          <h2>8) Community & Channels</h2>
+          <div class="section-num">Section 08</div>
+          <h2>Community &amp; Official Channels</h2>
           <ul>
-            <li><strong>X (Twitter):</strong> Official updates, releases, and roadmap notes.</li>
-            <li><strong>Telegram:</strong> Community chat, announcements, and moderation support.</li>
-            <li><strong>Store Listing:</strong> Public release notes and update transparency.</li>
+            <li><strong>X (Twitter):</strong> Official announcements, platform updates, roadmap milestones, and release notes.</li>
+            <li><strong>Telegram:</strong> Primary community hub — real-time chat, moderated announcements, and direct support.</li>
+            <li><strong>App Store Listings:</strong> Transparent public release notes and version update disclosures.</li>
           </ul>
-          <p class="note">Official links will be included in the final version.</p>
+          <p class="note">All official channel links will be published in the final version of this document and on the official website.</p>
         </section>
 
+        <!-- 9. COMPLIANCE -->
         <section id="compliance">
-          <h2>10) Compliance, KYC/AML & Regional Policies</h2>
+          <div class="section-num">Section 09</div>
+          <h2>Compliance, KYC/AML &amp; Regional Policies</h2>
           <ul>
-            <li><strong>KYC (Pre-Listing):</strong> May be required before listing, subject to regional availability. Supported regions and constraints will be announced.</li>
-            <li><strong>AML:</strong> Controls for suspicious activity and enforcement where applicable.</li>
-            <li><strong>GDPR/KVKK:</strong> Lawful basis, consent, access/erasure, data minimization.</li>
-            <li><strong>Store Policies:</strong> Communications and ads must comply with platform rules.</li>
+            <li><strong>KYC (Pre-Listing):</strong> Identity verification may be required prior to token distribution, subject to regional regulatory requirements. Eligible regions and detailed procedures will be announced in advance.</li>
+            <li><strong>AML Controls:</strong> Suspicious activity monitoring and enforcement measures are implemented where legally applicable.</li>
+            <li><strong>GDPR &amp; KVKK:</strong> Lawful basis for all data processing, full consent management, and user access/erasure rights are supported.</li>
+            <li><strong>Platform Policies:</strong> All communications, advertising, and in-app content comply with applicable app store and platform policies.</li>
           </ul>
-          <p class="note">Nominal Network makes <strong>no income guarantees</strong>; returns, prices, and liquidity are not promised.</p>
+          <p class="note"><strong>Nominal Network provides no income guarantees.</strong> Token prices, returns, and liquidity are market-determined and are not promised by the platform.</p>
         </section>
 
+        <!-- 10. RISK -->
         <section id="risk">
-          <h2>11) Risk Disclosure (Summary)</h2>
+          <div class="section-num">Section 10</div>
+          <h2>Risk Disclosure</h2>
           <ul class="list-bad">
-            <li><strong>Technical:</strong> Software defects, outages, adversarial attacks.</li>
-            <li><strong>Regulatory:</strong> Regional restrictions and changing rules.</li>
-            <li><strong>Market:</strong> Token price volatility and liquidity constraints.</li>
-            <li><strong>Operational:</strong> Abuse detection may invalidate balances obtained improperly.</li>
+            <li><strong>Technical Risk:</strong> Software defects, infrastructure outages, and adversarial attacks may affect platform availability or data integrity.</li>
+            <li><strong>Regulatory Risk:</strong> Changing legal landscapes in various jurisdictions may impose restrictions on participation or token distribution.</li>
+            <li><strong>Market Risk:</strong> NC token price is subject to market volatility and is not guaranteed by the platform. Liquidity at listing cannot be promised.</li>
+            <li><strong>Operational Risk:</strong> Anti-abuse enforcement may reduce or invalidate balances where manipulation is detected.</li>
+            <li><strong>Conversion Risk:</strong> The final points-to-NC conversion ratio is determined by a multi-factor model and may differ from user expectations.</li>
           </ul>
         </section>
 
+        <!-- 11. FAQ -->
         <section id="faq">
-          <h2>12) FAQ (Short)</h2>
-          <p><strong>Do I need to keep the phone on for 12 hours?</strong> No. Sessions and accrual are enforced by the server; the device mostly starts sessions and shows the UI.</p>
-          <p><strong>Can I claim points early (before 12 hours)?</strong> The intended model settles on completion; partial settlement rules (if any) would be explicitly announced.</p>
-          <p><strong>Are points 1:1 with NC?</strong> No guarantee. Conversion is proportional and rule-based.</p>
-          <p><strong>Why KYC?</strong> To meet regulatory expectations and promote fairness before listing (region-dependent).</p>
-          <p><strong>Will the baseline rate drop after listing?</strong> Not planned. Sustainability relies on pool allocation, monetization, and distribution rules.</p>
+          <div class="section-num">Section 11</div>
+          <h2>Frequently Asked Questions</h2>
+
+          <h3>Do I need to keep my phone active for 12 hours?</h3>
+          <p>No. Session timing and point accrual are managed entirely by the server. Your device only needs to initiate the session and display the interface — it does not need to remain open or connected throughout.</p>
+
+          <h3>Can I claim points before the 12-hour session completes?</h3>
+          <p>The default model settles points upon session completion. Any partial settlement rules, if introduced, will be explicitly announced in advance.</p>
+
+          <h3>Are accumulated points converted 1:1 to NC tokens?</h3>
+          <p>No. There is no guaranteed 1:1 conversion. The conversion ratio will be calculated proportionally based on pool size, participation quality, anti-abuse filtering, and total supply constraints. Full rules will be published before any conversion window.</p>
+
+          <h3>Why is KYC required?</h3>
+          <p>KYC requirements exist to satisfy regulatory obligations and to ensure that token distribution is conducted fairly and compliantly. Requirements vary by region and will be communicated clearly in advance.</p>
+
+          <h3>Will the baseline accrual rate decrease after listing?</h3>
+          <p>This is not planned. Long-term sustainability is maintained through pool allocation design, platform monetization, and distribution mechanics — not by reducing user rewards.</p>
+
+          <h3>Is Nominal Network a scam?</h3>
+          <p>No. Nominal Network is a legitimate, Phase 1 community mining application built and backed by <strong>Alp Digital Studio</strong>. The project is in active exchange negotiations and publishes its mechanics, tokenomics, and enforcement policies transparently in this white paper. See Section 13 for full legitimacy documentation.</p>
         </section>
 
+        <!-- 12. ROADMAP -->
         <section id="roadmap">
-          <h2>Roadmap (Target Dates — Draft)</h2>
+          <div class="section-num">Section 12</div>
+          <h2>Roadmap</h2>
 
-          <h3>Core App (Live)</h3>
-          <p>Mobile release with core earning features. Single-tap <strong>12-hour</strong> sessions, server-authoritative accrual, multilingual UI, and initial boost/referral flows. Baseline security (App Check / Play Integrity), rate limiting, and early observability (start/settlement ratios, error rates, latency).</p>
+          <div class="roadmap-item">
+            <div class="rm-dot done"></div>
+            <div class="rm-content">
+              <div class="rm-title">Core Application <span class="rm-status live">LIVE</span></div>
+              <div class="rm-desc">Mobile release with full core earning features: single-tap 12-hour sessions, server-authoritative accrual, multilingual UI, boost and referral flows, App Check / Play Integrity security, rate limiting, and operational observability.</div>
+            </div>
+          </div>
 
-          <h3>Engagement Update (Near-Term)</h3>
-          <p>Daily tasks, streaks, and seasonal events (e.g., New Year). Optional <strong>Lucky Wheel</strong> with fairness rules and rate limits. Element-themed UI progression (Air/Water/Earth/Fire) for a richer experience.</p>
+          <div class="roadmap-item">
+            <div class="rm-dot"></div>
+            <div class="rm-content">
+              <div class="rm-title">Engagement Update <span class="rm-status soon">NEAR-TERM</span></div>
+              <div class="rm-desc">Daily tasks, streak systems, and seasonal events. Optional Lucky Wheel with fairness controls. Elemental UI progression (Air → Water → Earth → Fire) for enriched user experience.</div>
+            </div>
+          </div>
 
-          <h3>Community Growth</h3>
-          <p>Scale users and engagement with multilingual content, moderation guidelines, and anti-spam rules. Referral verification flows. Activation/retention cohorts, A/B experiments, and creator/influencer partnerships.</p>
+          <div class="roadmap-item">
+            <div class="rm-dot"></div>
+            <div class="rm-content">
+              <div class="rm-title">Community Growth <span class="rm-status soon">NEAR-TERM</span></div>
+              <div class="rm-desc">Multilingual content expansion, moderation frameworks, referral verification flows, A/B experiments on retention, and influencer/creator partnership programs.</div>
+            </div>
+          </div>
 
-          <h3>Wallet Application</h3>
-          <p>Dedicated wallet for secure token management: account creation/linking, backup/restore, core transfers, notifications. User-friendly key UX; modular chain/network support (final chain TBA).</p>
+          <div class="roadmap-item">
+            <div class="rm-dot future"></div>
+            <div class="rm-content">
+              <div class="rm-title">Nominal Wallet Application <span class="rm-status planned">PLANNED</span></div>
+              <div class="rm-desc">Dedicated wallet for secure NC token management: account creation, backup/restore, transfers, push notifications, and user-friendly key management. Multi-chain support architecture (final chain TBA).</div>
+            </div>
+          </div>
 
-          <h3>Wallet Testing</h3>
-          <p>Security and functionality validation: pen-testing, key-management validations, recovery scenarios; red-team drills, signature/transaction integrity, incident response, and logging policies.</p>
+          <div class="roadmap-item">
+            <div class="rm-dot future"></div>
+            <div class="rm-content">
+              <div class="rm-title">Wallet Security Testing <span class="rm-status planned">PLANNED</span></div>
+              <div class="rm-desc">Comprehensive security validation: penetration testing, key management review, recovery scenario testing, red-team exercises, transaction integrity audits, and incident response drills.</div>
+            </div>
+          </div>
 
-          <h3>Token Airdrop</h3>
-          <p>Distribution to early community members and supporters with sybil/multi-account filtering, anti-bot verification, regional constraints, and <strong>KYC requirements</strong> (where applicable). Point→NC conversion is not 1:1; rules will be published transparently.</p>
+          <div class="roadmap-item">
+            <div class="rm-dot future"></div>
+            <div class="rm-content">
+              <div class="rm-title">Token Airdrop <span class="rm-status planned">PLANNED</span></div>
+              <div class="rm-desc">Distribution to early community members with full Sybil filtering, anti-bot verification, regional compliance checks, and KYC where required. Point→NC rules published in advance.</div>
+            </div>
+          </div>
 
-          <h3>Pre-Launch Readiness</h3>
-          <p>Final technical and operational prep: final tokenomics disclosure, independent audits, performance/capacity tests, store compliance reviews, consent/CMP checks, launch campaign and community coordination.</p>
+          <div class="roadmap-item">
+            <div class="rm-dot future"></div>
+            <div class="rm-content">
+              <div class="rm-title">Pre-Launch Readiness <span class="rm-status planned">PLANNED</span></div>
+              <div class="rm-desc">Final tokenomics disclosure, independent audits, performance and capacity testing, store compliance reviews, CMP verification, and coordinated launch campaign.</div>
+            </div>
+          </div>
 
-          <h3>Official Launch</h3>
-          <p>Platform goes live with full feature set: wallet+app integrations, boost/referral v2, notification systems, and operational monitoring. Support channels, FAQs, and appeals are ready; growth experiments and marketing plans are active.</p>
+          <div class="roadmap-item">
+            <div class="rm-dot future"></div>
+            <div class="rm-content">
+              <div class="rm-title">Official Platform Launch <span class="rm-status planned">PLANNED</span></div>
+              <div class="rm-desc">Full platform go-live: wallet integration, boost/referral v2, notification systems, 24/7 operational monitoring, support channels, and active growth programs.</div>
+            </div>
+          </div>
 
-          <h3>Exchange Listing — <strong>Q4 2026 (target)</strong></h3>
-          <p>Listing to improve liquidity and access. Regional eligibility checks, KYC/AML provider integrations, market-making principles, and risk management. Timelines and supported regions will be announced separately.</p>
+          <div class="roadmap-item">
+            <div class="rm-dot future"></div>
+            <div class="rm-content">
+              <div class="rm-title">Exchange Listing <span class="rm-status planned">PLANNED · Q4 2026 TARGET</span></div>
+              <div class="rm-desc">Public market listing to establish liquidity and accessibility. KYC/AML provider integrations, regional eligibility verification, and market-making framework. Exchange negotiations are currently active. Final date and supported exchanges will be announced separately.</div>
+            </div>
+          </div>
 
-          <h3>Desktop Client (Optional R&amp;D)</h3>
-          <p>Desktop app for expanded participation across Windows/macOS/Linux aligned with the <strong>server-authoritative session model</strong>. Not heavy PoW hashing; focuses on user-friendly flows (UI, notifications, tasks). Extends security and anti-abuse policies to desktop environments.</p>
+          <div class="roadmap-item">
+            <div class="rm-dot future"></div>
+            <div class="rm-content">
+              <div class="rm-title">Desktop Client <span class="rm-status planned">OPTIONAL R&amp;D</span></div>
+              <div class="rm-desc">Cross-platform desktop application (Windows, macOS, Linux) extending the server-authoritative session model to desktop environments. Focuses on UX, notifications, and daily tasks — not computational mining.</div>
+            </div>
+          </div>
         </section>
 
+        <!-- 13. GUARANTEE -->
+        <section id="guarantee">
+          <div class="section-num">Section 13 · New</div>
+          <h2>Project Legitimacy &amp; Guarantee</h2>
+
+          <div class="phase-badge">
+            <div class="dot"></div>
+            Phase 1 Active — Mobile Server-Authoritative Mining
+          </div>
+
+          <p>Nominal Network is a legitimate, community-driven blockchain project with a transparent architecture, published tokenomics, and an auditable anti-abuse framework. The platform is currently in <strong>Phase 1</strong>: the mobile server-authoritative mining application is live and actively growing its user base through organic community participation.</p>
+
+          <div class="guarantee-box">
+            <div class="g-card">
+              <div class="g-icon">🏗️</div>
+              <strong>Transparent Architecture</strong>
+              <p>Server-authoritative session model, published tokenomics, and open enforcement policies form the foundation of platform trust.</p>
+            </div>
+            <div class="g-card">
+              <div class="g-icon">📈</div>
+              <strong>Active Exchange Negotiations</strong>
+              <p>Exchange discussions are currently in progress. A definitive listing date will be announced upon conclusion of negotiations through all official channels.</p>
+            </div>
+            <div class="g-card">
+              <div class="g-icon">🛡️</div>
+              <strong>Alp Digital Studio Backing</strong>
+              <p>The project is developed and guaranteed under Alp Digital Studio, an independent technology platform with a portfolio of crypto, AI, and SaaS products.</p>
+            </div>
+            <div class="g-card">
+              <div class="g-icon">🌍</div>
+              <strong>Community-Driven Growth</strong>
+              <p>Platform milestones — user count, download volume, and participation metrics — are key inputs to listing readiness decisions.</p>
+            </div>
+          </div>
+
+          <p class="callout-gold"><strong>Listing Commitment:</strong> Alp Digital Studio provides listing support and guarantee for Nominal Network. Exchange negotiations are active. The final listing date will be formally announced across all official channels and updated in this white paper upon confirmation.</p>
+        </section>
+
+        <!-- 14. ALP DIGITAL STUDIO -->
+        <section id="alp">
+          <div class="section-num">Section 14 · New</div>
+          <h2>Alp Digital Studio</h2>
+
+          <div class="studio-header">
+            <div class="studio-logo">A</div>
+            <div>
+              <div class="studio-name">Alp Digital Studio</div>
+              <div class="studio-tagline">Technology Platform · Crypto · AI · SaaS · Automation</div>
+            </div>
+          </div>
+
+          <p>Alp Digital Studio is an independent technology platform that develops, operates, and supports a portfolio of digital products — including cryptocurrency mining applications, AI-powered tools, Link-in-Bio SaaS solutions, and business process automation systems. The platform provides end-to-end technical infrastructure across its portfolio, encompassing platform policy management, SQL database architecture, and backend engineering support.</p>
+
+          <div class="service-grid">
+            <div class="service-item">
+              <strong>Crypto Mining Applications</strong>
+              User-rights-focused mining platforms with server-authoritative session models and anti-abuse frameworks.
+            </div>
+            <div class="service-item">
+              <strong>AI-Powered Products</strong>
+              Intelligent tooling and automation solutions built on modern machine learning infrastructure.
+            </div>
+            <div class="service-item">
+              <strong>Link-in-Bio SaaS</strong>
+              Scalable, hosted SaaS platforms for digital presence management and link aggregation.
+            </div>
+            <div class="service-item">
+              <strong>Automation Systems</strong>
+              Business process automation and workflow optimization products for operational efficiency.
+            </div>
+          </div>
+
+          <h3>Platform Commitment to User Rights</h3>
+          <p>Alp Digital Studio operates with a user-rights-first philosophy within the cryptocurrency mining sector. The platform actively advocates for participant interests, provides direct intervention capability against decisions by unrelated third-party platforms that could harm user rights, and maintains listing support guarantees for mining applications under its umbrella.</p>
+
+          <p class="callout-accent"><strong>Listing Guarantee:</strong> Alp Digital Studio provides an active listing guarantee and ongoing support for exchange integration for all mining applications within its portfolio, including Nominal Network. The platform retains the authority to intervene directly on behalf of users where third-party platform decisions conflict with documented user rights.</p>
+
+          <p style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border); font-size:13px; color:var(--muted);">
+            <strong style="color:var(--text);">© Alp Digital Studio. All Rights Reserved.</strong><br/>
+            This document and all associated materials are the intellectual property of Alp Digital Studio. Reproduction, redistribution, or commercial use of any portion of this document, in whole or in part, without the express written consent of Alp Digital Studio is strictly prohibited. All trademarks, service marks, and trade names referenced herein are the property of their respective owners.
+          </p>
+        </section>
+
+        <!-- 15. LISTING & CONVERSION -->
+        <section id="listing">
+          <div class="section-num">Section 15 · New</div>
+          <h2>Listing Timeline, Earnings &amp; Conversion Policy</h2>
+
+          <h3>15.1 · Listing Timeline</h3>
+          <p>Nominal Network's exchange listing process is targeted for completion in <strong>Q4 2026</strong>. Exchange negotiations currently underway are expected to conclude within this period, at which point a definitive listing date will be formally announced across all official channels and updated in this white paper.</p>
+
+          <p>The primary factors that influence listing readiness are:</p>
+          <ul>
+            <li><strong>Active user count</strong> — sustained organic growth and verified participation rates</li>
+            <li><strong>Total download volume</strong> — platform reach and adoption scale</li>
+            <li><strong>Total NC to be distributed</strong> — pool allocation balance and distribution model completeness</li>
+            <li><strong>Conversion ratio determination</strong> — final points-to-NC ratio based on supply and participation data</li>
+          </ul>
+
+          <h3>15.2 · Conversion Ratio &amp; Earnings Policy</h3>
+          <p>The points-to-NC conversion ratio will be calculated in relation to the <strong>maximum token supply parameters</strong>, with the primary objective of ensuring that <strong>no active participant suffers a loss of earned rights</strong>. The platform's stated goal is to maintain a conversion ratio that is favorable to the community.</p>
+
+          <table class="enforcement-table">
+            <thead>
+              <tr>
+                <th>Factor</th>
+                <th>Description</th>
+                <th>Impact</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pool Allocation</td>
+                <td>Community mining allocation (50–60% of total supply)</td>
+                <td>Defines the total NC available for conversion</td>
+              </tr>
+              <tr>
+                <td>Participation Duration</td>
+                <td>Total verified session hours per user</td>
+                <td>Influences individual allocation weighting</td>
+              </tr>
+              <tr>
+                <td>Anti-Abuse Filtering</td>
+                <td>Removal of fraudulently accrued points</td>
+                <td>Increases effective ratio for honest participants</td>
+              </tr>
+              <tr>
+                <td>Download &amp; User Metrics</td>
+                <td>Platform scale at time of listing decision</td>
+                <td>Key input for exchange negotiations and listing timing</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="note"><strong>Important:</strong> Nominal Network does not guarantee a specific token price, return on participation, or liquidity at listing. Token market value is determined by open market conditions. Nothing in this white paper constitutes financial or investment advice.</p>
+        </section>
+
+        <!-- 16. USER CLASSES -->
+        <section id="userclasses">
+          <div class="section-num">Section 16 · New</div>
+          <h2>Active Users &amp; Platform Abuse Policy</h2>
+
+          <p>Nominal Network distinguishes between two categories of participants, each subject to distinct policies during the listing and NC distribution process.</p>
+
+          <div class="user-type">
+            <div class="user-type-header">
+              <div class="user-type-icon ut-good">✅</div>
+              <div class="user-type-title">Category 1 — Legitimate Participants</div>
+            </div>
+            <p>Users who participate in the platform consistently and without engaging in any form of manipulation, automation abuse, or policy violation are classified as legitimate participants. These users represent the core community that Nominal Network is built to serve.</p>
+            <ul class="list-ok">
+              <li>NC balances will be transferred without restrictions during the listing and manual distribution process.</li>
+              <li>Eligible for priority processing in the NC distribution queue, ranked by activity duration.</li>
+              <li>No additional verification burdens beyond standard KYC where applicable.</li>
+            </ul>
+          </div>
+
+          <div class="user-type">
+            <div class="user-type-header">
+              <div class="user-type-icon ut-bad">⚠️</div>
+              <div class="user-type-title">Category 2 — Policy-Violating Users</div>
+            </div>
+            <p>Users found to have engaged in referral system manipulation, bot-assisted accrual, emulator-based session fraud, or any other form of platform exploitation will be classified as policy-violating users and subject to the following sanctions during listing and distribution:</p>
+            <ul class="list-bad">
+              <li>Accounts will be suspended during the listing and manual NC distribution period.</li>
+              <li>Only verifiably clean, unmanipulated session earnings will be eligible for conversion; balances attributed to fraudulent activity will be invalidated.</li>
+              <li><strong>Delayed access penalty:</strong> Policy-violating accounts will not receive NC balances at listing. Eligible clean balances may only be claimed <strong>one (1) full year after the official listing date</strong>, at the NC market price applicable at that time, subject to account activity review.</li>
+            </ul>
+            <p class="callout-gold"><strong>Note:</strong> This delayed access penalty reflects the platform's long-standing commitment to protecting honest participants. The one-year delay is not punitive in isolation — it is a structural safeguard that preserves ecosystem integrity and market stability.</p>
+          </div>
+        </section>
+
+        <!-- 17. NC DISTRIBUTION -->
+        <section id="distribution">
+          <div class="section-num">Section 17 · New</div>
+          <h2>NC Distribution Process</h2>
+
+          <p>Upon confirmation of the final NC distribution date — which will be communicated across all official announcement channels and updated in this white paper — the distribution process will proceed in the following structured sequence:</p>
+
+          <ol>
+            <li>
+              <strong>Test Distribution Phase</strong><br/>
+              <span style="color:var(--muted); font-size:14px;">A controlled batch of test NC tokens will be dispatched to the forthcoming <strong>Nominal Wallet</strong> application to validate wallet infrastructure, confirm transfer mechanics, and identify any technical issues prior to full distribution.</span>
+            </li>
+            <li style="margin-top:14px;">
+              <strong>Manual Distribution — Activity-Based Priority</strong><br/>
+              <span style="color:var(--muted); font-size:14px;">NC tokens will be distributed manually to verified participants who have created a Nominal Wallet account, beginning with users who have the highest cumulative active session days on the platform. Distribution proceeds sequentially based on this activity ranking.</span>
+            </li>
+            <li style="margin-top:14px;">
+              <strong>Priority Criterion — Active Days</strong><br/>
+              <span style="color:var(--muted); font-size:14px;">Platform activity duration is the primary determinant of distribution priority. Users with sustained, long-term, and consistent participation will always be prioritized over more recent or intermittent participants.</span>
+            </li>
+          </ol>
+
+          <p class="note"><strong>Wallet Requirement:</strong> NC tokens can only be distributed to users who have created and verified a Nominal Wallet account prior to the distribution window. Instructions for wallet creation will be published through all official channels in advance of distribution.</p>
+
+          <p class="callout-accent"><strong>Distribution Timeline:</strong> Full distribution schedules, wallet creation deadlines, and eligibility criteria will be formally announced once the final listing date is confirmed. Monitor all official Nominal Network channels for updates.</p>
+        </section>
+
+        <!-- FOOTER -->
         <div class="foot">
-          &copy; Nominal Network — Draft v0.2 — This document may change prior to listing.
+          <div class="foot-title">Nominal Network — Official White Paper v1.0</div>
+          <p>Developed and guaranteed by <strong>Alp Digital Studio</strong></p>
+          <p>Exchange negotiations active · Q4 2026 listing target</p>
+          <div class="copyright">
+            © Alp Digital Studio. All Rights Reserved. · This document is subject to revision. All changes will be announced via official channels.<br/>
+            Nothing in this document constitutes financial, legal, or investment advice. Participation involves risk. See Section 10.
+          </div>
         </div>
+
       </main>
     </div>
   </div>
+
 </body>
 </html>

@@ -80,6 +80,13 @@
       text-decoration: none;
       border-radius: 999px;
       font-weight: bold;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
     }
 
     footer {
@@ -139,14 +146,14 @@
 
     <div class="card">
       <div class="label">Today's Daily Code</div>
-      <div class="code">NOMINALIAN</div>
+      <div class="code" id="dailyCode">NOMINALIAN</div>
 
       <p class="note">
         Copy this code and enter it inside the Nominal Network app to claim your daily reward.
         Daily codes may change regularly, so make sure to check this page often.
       </p>
 
-      <a class="btn" href="https://nominalcoin.app" target="_blank">Open Nominal App</a>
+      <button class="btn" onclick="copyCode()">Copy Code</button>
     </div>
 
     <div class="native-ad">
@@ -158,6 +165,18 @@
       © 2026 Nominal Network. Daily code page.
     </footer>
   </div>
+
+  <script>
+    function copyCode() {
+      const code = document.getElementById("dailyCode").innerText;
+
+      navigator.clipboard.writeText(code).then(function () {
+        alert("Code copied: " + code);
+      }).catch(function () {
+        alert("Please copy the code manually: " + code);
+      });
+    }
+  </script>
 
 </body>
 </html>
